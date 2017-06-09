@@ -19,7 +19,7 @@
  *  ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.  THIS SOFTWARE IS
  *  PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES,
  *  INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
- *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND 
+ *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
  *  NON-INFRINGEMENT.
  *
  *  IN NO EVENT SHALL USC, OR ANY OTHER CONTRIBUTOR BE LIABLE FOR ANY
@@ -31,7 +31,7 @@
  *  noted when applicable.
  */
 /*
- *  Questions concerning this software should be directed to 
+ *  Questions concerning this software should be directed to
  *  Pavlin Ivanov Radoslavov (pavlin@catarina.usc.edu)
  *
  *  $Id: pim.c,v 1.7 1998/12/22 21:50:17 kurtw Exp $
@@ -59,8 +59,8 @@ void
 init_pim()
 {
     struct ip *ip;
-    
-    if ((pim_socket = socket(AF_INET, SOCK_RAW, IPPROTO_PIM)) < 0) 
+
+    if ((pim_socket = socket(AF_INET, SOCK_RAW, IPPROTO_PIM)) < 0)
 	log(LOG_ERR, errno, "PIM socket");
 
     k_hdr_include(pim_socket, TRUE);      /* include IP header when sending */
@@ -70,7 +70,7 @@ init_pim()
     k_set_loop(pim_socket, FALSE);	  /* disable multicast loopback     */
 
     allpimrouters_group = htonl(INADDR_ALL_PIM_ROUTERS);
-    
+
     pim_recv_buf = malloc(RECV_BUF_SIZE);
     pim_send_buf = malloc(RECV_BUF_SIZE);
 
@@ -104,10 +104,10 @@ pim_read(f, rfd)
 #else
     register int omask;
 #endif
-    
+
     pim_recvlen = recvfrom(pim_socket, pim_recv_buf, RECV_BUF_SIZE,
 			   0, NULL, &dummy);
-    
+
     if (pim_recvlen < 0) {
 	if (errno != EINTR)
 	    log(LOG_ERR, errno, "PIM recvfrom");
@@ -123,9 +123,9 @@ pim_read(f, rfd)
     /* Use of omask taken from main() */
     omask = sigblock(sigmask(SIGALRM));
 #endif /* SYSV */
-    
+
     accept_pim(pim_recvlen);
-    
+
 #ifdef SYSV
     (void)sigprocmask(SIG_SETMASK, &oblock, (sigset_t *)NULL);
 #else
@@ -142,32 +142,32 @@ accept_pim(recvlen)
     register struct ip *ip;
     register pim_header_t *pim;
     int iphdrlen, pimlen;
-    
+
     if (recvlen < sizeof(struct ip)) {
 	log(LOG_WARNING, 0, "packet too short (%u bytes) for IP header",
 	    recvlen);
 	return;
     }
-    
+
     ip	        = (struct ip *)pim_recv_buf;
     src	        = ip->ip_src.s_addr;
     dst	        = ip->ip_dst.s_addr;
     iphdrlen    = ip->ip_hl << 2;
-    
+
     pim         = (pim_header_t *)(pim_recv_buf + iphdrlen);
     pimlen	= recvlen - iphdrlen;
     if (pimlen < sizeof(pim)) {
-	log(LOG_WARNING, 0, 
-	    "IP data field too short (%u bytes) for PIM header, from %s to %s", 
+	log(LOG_WARNING, 0,
+	    "IP data field too short (%u bytes) for PIM header, from %s to %s",
 	    pimlen, inet_fmt(src, s1), inet_fmt(dst, s2));
 	return;
     }
-    
+
 #ifdef NOSUCHDEF   /* TODO: delete. Too noisy */
     IF_DEBUG(DEBUG_PIM_DETAIL) {
 	IF_DEBUG(DEBUG_PIM) {
 	    log(LOG_DEBUG, 0, "Receiving %s from %-15s to %s ",
-		packet_kind(IPPROTO_PIM, pim->pim_type, 0), 
+		packet_kind(IPPROTO_PIM, pim->pim_type, 0),
 		inet_fmt(src, s1), inet_fmt(dst, s2));
 	    log(LOG_DEBUG, 0, "PIM type is %u", pim->pim_type);
 	}
@@ -181,29 +181,29 @@ accept_pim(recvlen)
      * No need for chechsum, if already done in the kernel?
      */
     switch (pim->pim_type) {
-    case PIM_HELLO:      
-	receive_pim_hello(src, dst, (char *)(pim), pimlen); 
+    case PIM_HELLO:
+	receive_pim_hello(src, dst, (char *)(pim), pimlen);
 	break;
-    case PIM_REGISTER:   
+    case PIM_REGISTER:
 	log(LOG_INFO, 0, "ignore %s from %s to %s",
 	    packet_kind(IPPROTO_PIM, pim->pim_type, 0), inet_fmt(src, s1),
 	    inet_fmt(dst, s2));
 	break;
-    case PIM_REGISTER_STOP:   
+    case PIM_REGISTER_STOP:
 	log(LOG_INFO, 0, "ignore %s from %s to %s",
 	    packet_kind(IPPROTO_PIM, pim->pim_type, 0), inet_fmt(src, s1),
 	    inet_fmt(dst, s2));
 	break;
-    case PIM_JOIN_PRUNE: 
-	receive_pim_join_prune(src, dst, (char *)(pim), pimlen); 
+    case PIM_JOIN_PRUNE:
+	receive_pim_join_prune(src, dst, (char *)(pim), pimlen);
 	break;
     case PIM_BOOTSTRAP:
 	log(LOG_INFO, 0, "ignore %s from %s to %s",
 	    packet_kind(IPPROTO_PIM, pim->pim_type, 0), inet_fmt(src, s1),
 	    inet_fmt(dst, s2));
 	break;
-    case PIM_ASSERT:     
-	receive_pim_assert(src, dst, (char *)(pim), pimlen); 
+    case PIM_ASSERT:
+	receive_pim_assert(src, dst, (char *)(pim), pimlen);
 	break;
     case PIM_GRAFT:
     case PIM_GRAFT_ACK:
@@ -227,7 +227,7 @@ accept_pim(recvlen)
  * Send a multicast PIM packet from src to dst, PIM message type = "type"
  * and data length (after the PIM header) = "datalen"
  */
-void 
+void
 send_pim(buf, src, dst, type, datalen)
     char *buf;
     u_int32 src, dst;
@@ -241,7 +241,7 @@ send_pim(buf, src, dst, type, datalen)
     extern int curttl;
 #endif /* RAW_OUTPUT_IS_RAW */
     int setloop = 0;
-    
+
     /* Prepare the IP header */
     ip                 = (struct ip *)buf;
     ip->ip_len	       = sizeof(struct ip) + sizeof(pim_header_t) + datalen;
@@ -252,25 +252,25 @@ send_pim(buf, src, dst, type, datalen)
 #ifdef RAW_OUTPUT_IS_RAW
     ip->ip_len         = htons(ip->ip_len);
 #endif /* RAW_OUTPUT_IS_RAW */
-    
+
     /* Prepare the PIM packet */
     pim		       = (pim_header_t *)(buf + sizeof(struct ip));
     pim->pim_type      = type;
-    pim->pim_vers       = PIM_PROTOCOL_VERSION;
-    pim->reserved      = 0;
+    pim->pim_vers      = PIM_PROTOCOL_VERSION;
+    pim->pim_reserved  = 0;
     pim->pim_cksum     = 0;
    /* TODO: XXX: if start using this code for PIM_REGISTERS, exclude the
     * encapsulated packet from the checsum.
     */
     pim->pim_cksum      = inet_cksum((u_int16 *)pim,
 				    sizeof(pim_header_t) + datalen);
-    
+
     if (IN_MULTICAST(ntohl(dst))) {
 	k_set_if(pim_socket, src);
-	if ((dst == allhosts_group) || (dst == allrouters_group) || 
+	if ((dst == allhosts_group) || (dst == allrouters_group) ||
 	    (dst == allpimrouters_group)) {
 	    setloop = 1;
-	    k_set_loop(pim_socket, TRUE);  
+	    k_set_loop(pim_socket, TRUE);
 	}
 #ifdef RAW_OUTPUT_IS_RAW
 	ip->ip_ttl = curttl;
@@ -278,14 +278,14 @@ send_pim(buf, src, dst, type, datalen)
 	ip->ip_ttl = MAXTTL;
 #endif /* RAW_OUTPUT_IS_RAW */
     }
-    
+
     bzero((void *)&sdst, sizeof(sdst));
     sdst.sin_family = AF_INET;
 #ifdef HAVE_SA_LEN
     sdst.sin_len = sizeof(sdst);
 #endif
     sdst.sin_addr.s_addr = dst;
-    if (sendto(pim_socket, buf, sendlen, 0, 
+    if (sendto(pim_socket, buf, sendlen, 0,
 	       (struct sockaddr *)&sdst, sizeof(sdst)) < 0) {
 	if (errno == ENETDOWN)
 	    check_vif_state();
@@ -293,13 +293,13 @@ send_pim(buf, src, dst, type, datalen)
 	    log(LOG_WARNING, errno, "sendto from %s to %s",
 		inet_fmt(src, s1), inet_fmt(dst, s2));
 	if (setloop)
-	    k_set_loop(pim_socket, FALSE); 
+	    k_set_loop(pim_socket, FALSE);
 	return;
     }
-    
+
     if (setloop)
-	k_set_loop(pim_socket, FALSE); 
-    
+	k_set_loop(pim_socket, FALSE);
+
     IF_DEBUG(DEBUG_PIM_DETAIL) {
 	IF_DEBUG(DEBUG_PIM) {
 	    log(LOG_DEBUG, 0, "SENT %s from %-15s to %s",
@@ -319,7 +319,7 @@ u_int pim_send_cnt = 0;
  * Send an unicast PIM packet from src to dst, PIM message type = "type"
  * and data length (after the PIM common header) = "datalen"
  */
-void 
+void
 send_pim_unicast(buf, src, dst, type, datalen)
     char *buf;
     u_int32 src, dst;
@@ -332,7 +332,7 @@ send_pim_unicast(buf, src, dst, type, datalen)
 #ifdef RAW_OUTPUT_IS_RAW
     extern int curttl;
 #endif /* RAW_OUTPUT_IS_RAW */
-    
+
     /* Prepare the IP header */
     ip                 = (struct ip *)buf;
     ip->ip_len         = sizeof(struct ip) + sizeof(pim_header_t) + datalen;
@@ -344,12 +344,12 @@ send_pim_unicast(buf, src, dst, type, datalen)
 #ifdef RAW_OUTPUT_IS_RAW
     ip->ip_len         = htons(ip->ip_len);
 #endif /* RAW_OUTPUT_IS_RAW */
-    
+
     /* Prepare the PIM packet */
-    pim		           = (pim_header_t *)(buf + sizeof(struct ip));
-    pim->pim_vers           = PIM_PROTOCOL_VERSION;
-    pim->pim_type          = type;
-    pim->reserved          = 0;
+    pim		             = (pim_header_t *)(buf + sizeof(struct ip));
+    pim->pim_vers      = PIM_PROTOCOL_VERSION;
+    pim->pim_type      = type;
+    pim->pim_reserved  = 0;
     pim->pim_cksum	   = 0;
 
     bzero((void *)&sdst, sizeof(sdst));
@@ -358,7 +358,7 @@ send_pim_unicast(buf, src, dst, type, datalen)
     sdst.sin_len = sizeof(sdst);
 #endif
     sdst.sin_addr.s_addr = dst;
-    if (sendto(pim_socket, buf, sendlen, 0, 
+    if (sendto(pim_socket, buf, sendlen, 0,
 	       (struct sockaddr *)&sdst, sizeof(sdst)) < 0) {
 	if (errno == ENETDOWN)
 	    check_vif_state();
@@ -366,7 +366,7 @@ send_pim_unicast(buf, src, dst, type, datalen)
 	    log(LOG_WARNING, errno, "sendto from %s to %s",
 		inet_fmt(src, s1), inet_fmt(dst, s2));
     }
-    
+
     IF_DEBUG(DEBUG_PIM_DETAIL) {
 	IF_DEBUG(DEBUG_PIM) {
 /* TODO: use pim_send_cnt ?

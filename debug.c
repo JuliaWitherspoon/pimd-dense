@@ -54,6 +54,7 @@
 #else
 #include <varargs.h>
 #endif
+#include <time.h>
 
 extern int haveterminal;
 extern char *progname;
