@@ -56,6 +56,7 @@ RSRRDEF=	-DRSRR
 CC?=		gcc
 MCAST_INCLUDE=	-Iinclude
 LDFLAGS=
+PREFIX?=
 
 #CONFIGCONFIGCONFIG
 PURIFY=		purify -cache-dir=/tmp -collector=/import/pkgs/gcc/lib/gcc-lib/sparc-sun-sunos4.1.3_U1/2.7.2.2/ld
@@ -187,11 +188,15 @@ curr-diff:
 
 
 install:	${PROG_NAME}
-	install -d /usr/local/bin
-	install -m 0755 -f /usr/local/bin ${PROG_NAME}
-	- mv /etc/pimdd.conf /etc/pimdd.conf.old
-	cp pimdd.conf /etc
+	install -d ${PREFIX}/usr/bin
+	install -d ${PREFIX}/etc
+	install    -m 0755 -t ${PREFIX}/usr/bin ${PROG_NAME}
+	install -b -m 0644 -t ${PREFIX}/etc pimdd.conf
 	echo "Don't forget to check/edit /etc/pimdd.conf!!!"
+
+uninstall:
+	rm ${PREFIX}/usr/bin/${PROG_NAME}
+	rm ${PREFIX}/etc/pimdd.conf
 
 clean:	FRC ${SNMPCLEAN}
 	rm -f ${OBJS} core ${PROG_NAME} tags TAGS
@@ -225,7 +230,5 @@ TAGS:	FRC
 	etags ${SRCS}
 
 FRC:
-
-
 
 # DO NOT DELETE THIS LINE -- mkdep uses it.
