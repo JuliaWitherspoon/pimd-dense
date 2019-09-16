@@ -10,15 +10,15 @@
  *  documentation, and that any documentation, advertising materials,
  *  and other materials related to such distribution and use acknowledge
  *  that the software was developed by the University of Oregon.
- *  The name of the University of Oregon may not be used to endorse or 
- *  promote products derived from this software without specific prior 
+ *  The name of the University of Oregon may not be used to endorse or
+ *  promote products derived from this software without specific prior
  *  written permission.
  *
  *  THE UNIVERSITY OF OREGON DOES NOT MAKE ANY REPRESENTATIONS
  *  ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.  THIS SOFTWARE IS
  *  PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES,
  *  INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
- *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND 
+ *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
  *  NON-INFRINGEMENT.
  *
  *  IN NO EVENT SHALL UO, OR ANY OTHER CONTRIBUTOR BE LIABLE FOR ANY
@@ -30,7 +30,7 @@
  *  noted when applicable.
  */
 /*
- *  Questions concerning this software should be directed to 
+ *  Questions concerning this software should be directed to
  *  Kurt Windisch (kurtw@antc.uoregon.edu)
  *
  *  $Id: mrt.h,v 1.11 1998/05/29 21:58:23 kurtw Exp $
@@ -39,13 +39,13 @@
  * Part of this program has been derived from PIM sparse-mode pimd.
  * The pimd program is covered by the license in the accompanying file
  * named "LICENSE.pimd".
- *  
+ *
  * The pimd program is COPYRIGHT 1998 by University of Southern California.
  *
  * Part of this program has been derived from mrouted.
  * The mrouted program is covered by the license in the accompanying file
  * named "LICENSE.mrouted".
- * 
+ *
  * The mrouted program is COPYRIGHT 1989 by The Board of Trustees of
  * Leland Stanford Junior University.
  *
@@ -66,57 +66,57 @@
 
 /* Macro to duplicate oif info (oif bits, timers) */
 #define VOIF_COPY(from, to)                                                \
-	    do {                                                           \
-                VIFM_COPY((from)->joined_oifs, (to)->joined_oifs);         \
-                VIFM_COPY((from)->oifs, (to)->oifs);                       \
-                VIFM_COPY((from)->leaves, (to)->leaves);                   \
-                VIFM_COPY((from)->pruned_oifs, (to)->pruned_oifs);         \
-                bcopy((from)->prune_timers, (to)->prune_timers,            \
-		      numvifs*sizeof((from)->prune_timers[0]));            \
-                bcopy((from)->prune_delay_timerids,                        \
-		      (to)->prune_delay_timerids,                          \
-		      numvifs*sizeof((from)->prune_delay_timerids[0]));    \
-                (to)->join_delay_timerid = (from)->join_delay_timerid;     \
-	    } while (0)
+	do {                                                           \
+		VIFM_COPY((from)->joined_oifs, (to)->joined_oifs);         \
+		VIFM_COPY((from)->oifs, (to)->oifs);                       \
+		VIFM_COPY((from)->leaves, (to)->leaves);                   \
+		VIFM_COPY((from)->pruned_oifs, (to)->pruned_oifs);         \
+		bcopy((from)->prune_timers, (to)->prune_timers,            \
+			  numvifs*sizeof((from)->prune_timers[0]));            \
+		bcopy((from)->prune_delay_timerids,                        \
+			  (to)->prune_delay_timerids,                          \
+			  numvifs*sizeof((from)->prune_delay_timerids[0]));    \
+		(to)->join_delay_timerid = (from)->join_delay_timerid;     \
+	} while (0)
 
 #ifdef SAVE_MEMORY
 #define FREE_MRTENTRY(mrtentry_ptr)                                        \
-             do {                                                          \
-                  u_int16 i;                                               \
-                  u_long *il_ptr;                                          \
-		  free((char *)((mrtentry_ptr)->prune_timers));            \
-		  for(i=0, il_ptr=(mrtentry_ptr)->prune_delay_timerids;    \
-                      i<numvifs; i++, il_ptr++)                            \
-		       timer_clearTimer(*il_ptr);                          \
-		  free((char *)((mrtentry_ptr)->prune_delay_timerids));    \
-                  timer_clearTimer((mrtentry_ptr)->join_delay_timerid);    \
-		  delete_pim_graft_entry((mrtentry_ptr));                  \
-                  free((char *)(mrtentry_ptr));                            \
-	     } while (0)
+	do {                                                          \
+		u_int16 i;                                               \
+		u_long *il_ptr;                                          \
+		free((char *)((mrtentry_ptr)->prune_timers));            \
+		for(i=0, il_ptr=(mrtentry_ptr)->prune_delay_timerids;    \
+			i<numvifs; i++, il_ptr++)                            \
+			timer_clearTimer(*il_ptr);                          \
+		free((char *)((mrtentry_ptr)->prune_delay_timerids));    \
+		timer_clearTimer((mrtentry_ptr)->join_delay_timerid);    \
+		delete_pim_graft_entry((mrtentry_ptr));                  \
+		free((char *)(mrtentry_ptr));                            \
+	} while (0)
 #else
 #define FREE_MRTENTRY(mrtentry_ptr)                                        \
-             do {                                                          \
-                  u_int16 i;                                               \
-                  u_long *il_ptr;                                          \
-		  free((char *)((mrtentry_ptr)->prune_timers));            \
-		  for(i=0, il_ptr=(mrtentry_ptr)->prune_delay_timerids;    \
-                      i<total_interfaces; i++, il_ptr++)                   \
-		       timer_clearTimer(*il_ptr);                          \
-		  free((char *)((mrtentry_ptr)->prune_delay_timerids));    \
-                  free((char *)((mrtentry_ptr)->last_assert));             \
-                  free((char *)((mrtentry_ptr)->last_prune));              \
-                  timer_clearTimer((mrtentry_ptr)->join_delay_timerid);    \
-		  delete_pim_graft_entry((mrtentry_ptr));                  \
-                  free((char *)(mrtentry_ptr));                            \
-	     } while (0)
+	do {                                                          \
+		u_int16 i;                                               \
+		u_long *il_ptr;                                          \
+		free((char *)((mrtentry_ptr)->prune_timers));            \
+		for(i=0, il_ptr=(mrtentry_ptr)->prune_delay_timerids;    \
+			i<total_interfaces; i++, il_ptr++)                   \
+			timer_clearTimer(*il_ptr);                          \
+		free((char *)((mrtentry_ptr)->prune_delay_timerids));    \
+		free((char *)((mrtentry_ptr)->last_assert));             \
+		free((char *)((mrtentry_ptr)->last_prune));              \
+		timer_clearTimer((mrtentry_ptr)->join_delay_timerid);    \
+		delete_pim_graft_entry((mrtentry_ptr));                  \
+		free((char *)(mrtentry_ptr));                            \
+	} while (0)
 #endif  /* SAVE_MEMORY */
 
 typedef struct pim_nbr_entry {
-    struct	pim_nbr_entry *next;	  /* link to next neighbor	    */
-    struct	pim_nbr_entry *prev;	  /* link to prev neighbor	    */
-    u_int32	address;		  /* neighbor address		    */
-    vifi_t	vifi;			  /* which interface		    */
-    u_int16	timer;			  /* for timing out neighbor	    */
+	struct	pim_nbr_entry *next;	  /* link to next neighbor	    */
+	struct	pim_nbr_entry *prev;	  /* link to prev neighbor	    */
+	u_int32	address;		  /* neighbor address		    */
+	vifi_t	vifi;			  /* which interface		    */
+	u_int16	timer;			  /* for timing out neighbor	    */
 } pim_nbr_entry_t;
 
 
@@ -125,69 +125,69 @@ typedef struct pim_nbr_entry {
  * bits, etc)
  */
 struct sg_count {
-    u_long pktcnt;     /*  Number of packets for (s,g) */
-    u_long bytecnt;    /*  Number of bytes for (s,g)   */
-    u_long wrong_if;   /*  Number of packets received on wrong iif for (s,g) */
+	u_long pktcnt;     /*  Number of packets for (s,g) */
+	u_long bytecnt;    /*  Number of bytes for (s,g)   */
+	u_long wrong_if;   /*  Number of packets received on wrong iif for (s,g) */
 };
 
 typedef struct mrtentry mrtentry_t;
 typedef struct pim_graft_entry {
-    struct pim_graft_entry    *next;
-    struct pim_graft_entry    *prev;
-    mrtentry_t                *mrtlink;
+	struct pim_graft_entry    *next;
+	struct pim_graft_entry    *prev;
+	mrtentry_t                *mrtlink;
 } pim_graft_entry_t;
 
 
 typedef struct srcentry {
-    struct srcentry	*next;		/* link to next entry		    */
-    struct srcentry	*prev;		/* link to prev entry		    */
-    u_int32		address;	/* source or RP address 	    */
-    struct mrtentry	*mrtlink;	/* link to routing entries	    */
-    vifi_t		incoming;	/* incoming vif			    */
-    struct pim_nbr_entry *upstream;	/* upstream router		    */
-    u_int32             metric;     /* Unicast Routing Metric to the source */
-    u_int32		preference;	/* The metric preference (for assers)*/
-    u_int16		timer;		/* Entry timer??? Delete?      	    */
+	struct srcentry	*next;		/* link to next entry		    */
+	struct srcentry	*prev;		/* link to prev entry		    */
+	u_int32		address;	/* source or RP address 	    */
+	struct mrtentry	*mrtlink;	/* link to routing entries	    */
+	vifi_t		incoming;	/* incoming vif			    */
+	struct pim_nbr_entry *upstream;	/* upstream router		    */
+	u_int32             metric;     /* Unicast Routing Metric to the source */
+	u_int32		preference;	/* The metric preference (for assers)*/
+	u_int16		timer;		/* Entry timer??? Delete?      	    */
 } srcentry_t;
 
 
 typedef struct grpentry {
-    struct grpentry	*next;	       /* link to next entry		    */
-    struct grpentry	*prev;	       /* link to prev entry		    */
-    u_int32		group;	       /* subnet group of multicasts	    */
-    struct mrtentry	*mrtlink;      /* link to (S,G) routing entries	    */
+	struct grpentry	*next;	       /* link to next entry		    */
+	struct grpentry	*prev;	       /* link to prev entry		    */
+	u_int32		group;	       /* subnet group of multicasts	    */
+	struct mrtentry	*mrtlink;      /* link to (S,G) routing entries	    */
 } grpentry_t;
 
 struct mrtentry {
-    struct mrtentry	*grpnext;	/* next entry of same group	    */
-    struct mrtentry	*grpprev;	/* prev entry of same group	    */
-    struct mrtentry	*srcnext;	/* next entry of same source	    */
-    struct mrtentry	*srcprev;	/* prev entry of same source	    */
-    struct grpentry	*group;		/* pointer to group entry	    */
-    struct srcentry	*source;	/* pointer to source entry (or RP)  */
-    vifi_t              incoming;       /* the iif (either toward S or RP)  */
-    vifbitmap_t         oifs;           /* The current result oifs          */
-    vifbitmap_t         pruned_oifs;    /* The pruned oifs (Prune received) */
-    vifbitmap_t	        leaves;		/* Has directly connected members   */
-    struct pim_nbr_entry *upstream;	/* upstream router, needed because
+	struct mrtentry	*grpnext;	/* next entry of same group	    */
+	struct mrtentry	*grpprev;	/* prev entry of same group	    */
+	struct mrtentry	*srcnext;	/* next entry of same source	    */
+	struct mrtentry	*srcprev;	/* prev entry of same source	    */
+	struct grpentry	*group;		/* pointer to group entry	    */
+	struct srcentry	*source;	/* pointer to source entry (or RP)  */
+	vifi_t              incoming;       /* the iif (either toward S or RP)  */
+	vifbitmap_t         oifs;           /* The current result oifs          */
+	vifbitmap_t         pruned_oifs;    /* The pruned oifs (Prune received) */
+	vifbitmap_t	        leaves;		/* Has directly connected members   */
+	struct pim_nbr_entry *upstream;	/* upstream router, needed because
 					 * of the asserts it may be different
 					 * than the source (or RP) upstream
 					 * router.
 					 */
-    u_int32             metric;         /* Metric for the upstream          */
-    u_int32		preference;	/* preference for the upstream      */
-    u_int16	        *prune_timers;  /* prune timer list		    */
-    u_long              *prune_delay_timerids; /* timers for LAN prunes     */
-    u_long              join_delay_timerid; /* timer for delay joins        */
-    u_int16	        flags;	        /* The MRTF_* flags                 */
-    u_int16	        timer;	        /* entry timer			    */
-    u_int	        assert_timer;
-    struct sg_count     sg_count;
-    u_long              *last_assert;   /* time for last data-driven assert */
-    u_long              *last_prune;    /* time for last data-driven prune  */
-    pim_graft_entry_t   *graft;         /* Pointer into graft entry list    */
+	u_int32             metric;         /* Metric for the upstream          */
+	u_int32		preference;	/* preference for the upstream      */
+	u_int16	        *prune_timers;  /* prune timer list		    */
+	u_long              *prune_delay_timerids; /* timers for LAN prunes     */
+	u_long              join_delay_timerid; /* timer for delay joins        */
+	u_int16	        flags;	        /* The MRTF_* flags                 */
+	u_int16	        timer;	        /* entry timer			    */
+	u_int	        assert_timer;
+	struct sg_count     sg_count;
+	u_long              *last_assert;   /* time for last data-driven assert */
+	u_long              *last_prune;    /* time for last data-driven prune  */
+	pim_graft_entry_t   *graft;         /* Pointer into graft entry list    */
 #ifdef RSRR
-    struct rsrr_cache   *rsrr_cache;    /* Used to save RSRR requests for
+	struct rsrr_cache   *rsrr_cache;    /* Used to save RSRR requests for
                                          * routes change notification.
                                          */
 #endif /* RSRR */
@@ -195,9 +195,9 @@ struct mrtentry {
 
 
 struct vif_count {
-    u_long icount;        /* Input packet count on vif            */
-    u_long ocount;        /* Output packet count on vif           */
-    u_long ibytes;        /* Input byte count on vif              */ 
-    u_long obytes;        /* Output byte count on vif             */ 
+	u_long icount;        /* Input packet count on vif            */
+	u_long ocount;        /* Output packet count on vif           */
+	u_long ibytes;        /* Input byte count on vif              */
+	u_long obytes;        /* Output byte count on vif             */
 };
 

@@ -30,15 +30,15 @@ char s4[19];
  */
 int
 inet_valid_host(naddr)
-    u_int32 naddr;
+u_int32 naddr;
 {
-    register u_int32 addr;
-    
-    addr = ntohl(naddr);
-    
-    return (!(IN_MULTICAST(addr) ||
-	      IN_BADCLASS (addr) ||
-	      (addr & 0xff000000) == 0));
+	register u_int32 addr;
+
+	addr = ntohl(naddr);
+
+	return (!(IN_MULTICAST(addr) ||
+			  IN_BADCLASS(addr) ||
+			  (addr & 0xff000000) == 0));
 }
 
 /*
@@ -48,14 +48,14 @@ inet_valid_host(naddr)
  */
 int
 inet_valid_mask(mask)
-    u_int32 mask;
+u_int32 mask;
 {
-    if (~(((mask & -mask) - 1) | mask) != 0) {
-	/* Mask is not contiguous */
-	return (FALSE);
-    }
+	if (~(((mask & -mask) - 1) | mask) != 0) {
+		/* Mask is not contiguous */
+		return (FALSE);
+	}
 
-    return (TRUE);
+	return (TRUE);
 }
 
 /*
@@ -69,38 +69,37 @@ inet_valid_mask(mask)
  */
 int
 inet_valid_subnet(nsubnet, nmask)
-    u_int32 nsubnet, nmask;
+u_int32 nsubnet, nmask;
 {
-    register u_int32 subnet, mask;
+	register u_int32 subnet, mask;
 
-    subnet = ntohl(nsubnet);
-    mask   = ntohl(nmask);
+	subnet = ntohl(nsubnet);
+	mask   = ntohl(nmask);
 
-    if ((subnet & mask) != subnet)
-	return (FALSE);
+	if ((subnet & mask) != subnet)
+		return (FALSE);
 
-    if (subnet == 0)
-	return (mask == 0);
+	if (subnet == 0)
+		return (mask == 0);
 
-    if (IN_CLASSA(subnet)) {
-	if (mask < 0xff000000 ||
-	    (subnet & 0xff000000) == 0x7f000000 ||
-	    (subnet & 0xff000000) == 0x00000000) return (FALSE);
-    }
-    else if (IN_CLASSD(subnet) || IN_BADCLASS(subnet)) {
-	/* Above Class C address space */
-	return (FALSE);
-    }
-    if (subnet & ~mask) {
-	/* Host bits are set in the subnet */
-	return (FALSE);
-    }
-    if (!inet_valid_mask(mask)) {
-	/* Netmask is not contiguous */
-	return (FALSE);
-    }
-    
-    return (TRUE);
+	if (IN_CLASSA(subnet)) {
+		if (mask < 0xff000000 ||
+			(subnet & 0xff000000) == 0x7f000000 ||
+			(subnet & 0xff000000) == 0x00000000) return (FALSE);
+	} else if (IN_CLASSD(subnet) || IN_BADCLASS(subnet)) {
+		/* Above Class C address space */
+		return (FALSE);
+	}
+	if (subnet & ~mask) {
+		/* Host bits are set in the subnet */
+		return (FALSE);
+	}
+	if (!inet_valid_mask(mask)) {
+		/* Netmask is not contiguous */
+		return (FALSE);
+	}
+
+	return (TRUE);
 }
 
 
@@ -109,14 +108,14 @@ inet_valid_subnet(nsubnet, nmask)
  */
 char *
 inet_fmt(addr, s)
-    u_int32 addr;
-    char *s;
+u_int32 addr;
+char *s;
 {
-    register u_char *a;
-    
-    a = (u_char *)&addr;
-    sprintf(s, "%u.%u.%u.%u", a[0], a[1], a[2], a[3]);
-    return (s);
+	register u_char *a;
+
+	a = (u_char *)&addr;
+	sprintf(s, "%u.%u.%u.%u", a[0], a[1], a[2], a[3]);
+	return (s);
 }
 
 
@@ -127,27 +126,27 @@ inet_fmt(addr, s)
 #ifdef NOSUCHDEF	/* replaced by netname() */
 char *
 inet_fmts(addr, mask, s)
-    u_int32 addr, mask;
-    char *s;
+u_int32 addr, mask;
+char *s;
 {
-    register u_char *a, *m;
-    int bits;
+	register u_char *a, *m;
+	int bits;
 
-    if ((addr == 0) && (mask == 0)) {
-	sprintf(s, "default");
+	if ((addr == 0) && (mask == 0)) {
+		sprintf(s, "default");
+		return (s);
+	}
+	a = (u_char *)&addr;
+	m = (u_char *)&mask;
+	bits = 33 - ffs(ntohl(mask));
+
+	if (m[3] != 0) sprintf(s, "%u.%u.%u.%u/%d", a[0], a[1], a[2], a[3],
+							   bits);
+	else if (m[2] != 0) sprintf(s, "%u.%u.%u/%d",    a[0], a[1], a[2], bits);
+	else if (m[1] != 0) sprintf(s, "%u.%u/%d",       a[0], a[1], bits);
+	else                sprintf(s, "%u/%d",          a[0], bits);
+
 	return (s);
-    }
-    a = (u_char *)&addr;
-    m = (u_char *)&mask;
-    bits = 33 - ffs(ntohl(mask));
-
-    if      (m[3] != 0) sprintf(s, "%u.%u.%u.%u/%d", a[0], a[1], a[2], a[3],
-				bits);
-    else if (m[2] != 0) sprintf(s, "%u.%u.%u/%d",    a[0], a[1], a[2], bits);
-    else if (m[1] != 0) sprintf(s, "%u.%u/%d",       a[0], a[1], bits);
-    else                sprintf(s, "%u/%d",          a[0], bits);
-    
-    return (s);
 }
 #endif /* NOSUCHDEF */
 
@@ -160,24 +159,24 @@ inet_fmts(addr, mask, s)
  */
 u_int32
 inet_parse(s, n)
-    char *s;
-    int n;
+char *s;
+int n;
 {
-    u_int32 a = 0;
-    u_int a0 = 0, a1 = 0, a2 = 0, a3 = 0;
-    int i;
-    char c;
+	u_int32 a = 0;
+	u_int a0 = 0, a1 = 0, a2 = 0, a3 = 0;
+	int i;
+	char c;
 
-    i = sscanf(s, "%u.%u.%u.%u%c", &a0, &a1, &a2, &a3, &c);
-    if (i < n || i > 4 || a0 > 255 || a1 > 255 || a2 > 255 || a3 > 255)
-	return (0xffffffff);
+	i = sscanf(s, "%u.%u.%u.%u%c", &a0, &a1, &a2, &a3, &c);
+	if (i < n || i > 4 || a0 > 255 || a1 > 255 || a2 > 255 || a3 > 255)
+		return (0xffffffff);
 
-    ((u_char *)&a)[0] = a0;
-    ((u_char *)&a)[1] = a1;
-    ((u_char *)&a)[2] = a2;
-    ((u_char *)&a)[3] = a3;
+	((u_char *)&a)[0] = a0;
+	((u_char *)&a)[1] = a1;
+	((u_char *)&a)[2] = a2;
+	((u_char *)&a)[3] = a3;
 
-    return (a);
+	return (a);
 }
 
 
@@ -201,8 +200,8 @@ inet_parse(s, n)
  */
 int
 inet_cksum(addr, len)
-	u_int16 *addr;
-	u_int len;
+u_int16 *addr;
+u_int len;
 {
 	register int nleft = (int)len;
 	register u_int16 *w = addr;
@@ -222,7 +221,7 @@ inet_cksum(addr, len)
 
 	/* mop up an odd byte, if necessary */
 	if (nleft == 1) {
-		*(u_char *) (&answer) = *(u_char *)w ;
+		*(u_char *)(&answer) = *(u_char *)w ;
 		sum += answer;
 	}
 
@@ -240,76 +239,76 @@ inet_cksum(addr, len)
  */
 void
 trimdomain(cp)
-    char *cp;
+char *cp;
 {
-    static char domain[MAXHOSTNAMELEN + 1];
-    static int first = 1;
-    char *s;
-    
-    if (first) {
-	first = 0;
-	if (gethostname(domain, MAXHOSTNAMELEN) == 0 &&
-	    (s = strchr(domain, '.')))
-	    (void) strcpy(domain, s + 1);
-	else
-	    domain[0] = 0;
-    }
+	static char domain[MAXHOSTNAMELEN + 1];
+	static int first = 1;
+	char *s;
 
-    if (domain[0]) {
-	while ((cp = strchr(cp, '.'))) {
-	    if (!strcasecmp(cp + 1, domain)) {
-		*cp = 0;        /* hit it */
-		break;
-	    } else {
-		cp++;
-	    }
+	if (first) {
+		first = 0;
+		if (gethostname(domain, MAXHOSTNAMELEN) == 0 &&
+			(s = strchr(domain, '.')))
+			(void) strcpy(domain, s + 1);
+		else
+			domain[0] = 0;
 	}
-    }
+
+	if (domain[0]) {
+		while ((cp = strchr(cp, '.'))) {
+			if (!strcasecmp(cp + 1, domain)) {
+				*cp = 0;        /* hit it */
+				break;
+			} else {
+				cp++;
+			}
+		}
+	}
 }
 
 static u_long
 forgemask(a)
-    u_long a;
+u_long a;
 {
-    u_long m;
+	u_long m;
 
-    if (IN_CLASSA(a))
-	m = IN_CLASSA_NET;
-    else if (IN_CLASSB(a))
-	m = IN_CLASSB_NET;
-    else
-	m = IN_CLASSC_NET;
-    return (m);
+	if (IN_CLASSA(a))
+		m = IN_CLASSA_NET;
+	else if (IN_CLASSB(a))
+		m = IN_CLASSB_NET;
+	else
+		m = IN_CLASSC_NET;
+	return (m);
 }
 
 static void
 domask(dst, addr, mask)
-    char *dst;
-    u_long addr, mask;
+char *dst;
+u_long addr, mask;
 {
-    int b, i;
-	
-    if (!mask || (forgemask(addr) == mask)) {
-	*dst = '\0';
-	return;         
-    }
-    i = 0;
-    for (b = 0; b < 32; b++)
-	if (mask & (1 << b)) {
-	    int bb;
-	    
-	    i = b;
-	    for (bb = b+1; bb < 32; bb++)
-		if (!(mask & (1 << bb))) {
-		    i = -1; /* noncontig */
-		    break;
-		}
-	    break;
+	int b, i;
+
+	if (!mask || (forgemask(addr) == mask)) {
+		*dst = '\0';
+		return;
 	}
-    if (i == -1) 
-	sprintf(dst, "&0x%lx", mask);
-    else
-	sprintf(dst, "/%d", 32 - i);
+	i = 0;
+	for (b = 0; b < 32; b++)
+		if (mask & (1 << b)) {
+			int bb;
+
+			i = b;
+			for (bb = b + 1; bb < 32; bb++)
+				if (!(mask & (1 << bb))) {
+					i = -1; /* noncontig */
+					break;
+				}
+			break;
+		}
+	if (i == -1)
+		sprintf(dst, "&0x%lx", mask);
+	else
+		sprintf(dst, "/%d", 32 - i);
 }
 
 /*
@@ -317,24 +316,24 @@ domask(dst, addr, mask)
  * The address is assumed to be that of a net or subnet, not a host.
  */
 char *
-netname(addr, mask)       
-    u_int32 addr, mask;
+netname(addr, mask)
+u_int32 addr, mask;
 {
-    static char line[MAXHOSTNAMELEN + 4];
-    u_int32 omask;
-    u_int32 i;
-    
-    i = ntohl(addr);
-    omask = mask = ntohl(mask);
-    if ((i & 0xffffff) == 0)
-	sprintf(line, "%u", C(i >> 24));
-    else if ((i & 0xffff) == 0)
-	sprintf(line, "%u.%u", C(i >> 24) , C(i >> 16));
-    else if ((i & 0xff) == 0)
-	sprintf(line, "%u.%u.%u", C(i >> 24), C(i >> 16), C(i >> 8));
-    else
-	sprintf(line, "%u.%u.%u.%u", C(i >> 24),
-		C(i >> 16), C(i >> 8), C(i));
-    domask(line+strlen(line), i, omask);
-    return (line);          
+	static char line[MAXHOSTNAMELEN + 4];
+	u_int32 omask;
+	u_int32 i;
+
+	i = ntohl(addr);
+	omask = mask = ntohl(mask);
+	if ((i & 0xffffff) == 0)
+		sprintf(line, "%u", C(i >> 24));
+	else if ((i & 0xffff) == 0)
+		sprintf(line, "%u.%u", C(i >> 24), C(i >> 16));
+	else if ((i & 0xff) == 0)
+		sprintf(line, "%u.%u.%u", C(i >> 24), C(i >> 16), C(i >> 8));
+	else
+		sprintf(line, "%u.%u.%u.%u", C(i >> 24),
+				C(i >> 16), C(i >> 8), C(i));
+	domask(line + strlen(line), i, omask);
+	return (line);
 }

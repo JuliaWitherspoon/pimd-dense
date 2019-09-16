@@ -19,7 +19,7 @@
  *  ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.  THIS SOFTWARE IS
  *  PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES,
  *  INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
- *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND 
+ *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
  *  NON-INFRINGEMENT.
  *
  *  IN NO EVENT SHALL USC, OR ANY OTHER CONTRIBUTOR BE LIABLE FOR ANY
@@ -31,7 +31,7 @@
  *  noted when applicable.
  */
 /*
- *  Questions concerning this software should be directed to 
+ *  Questions concerning this software should be directed to
  *  Pavlin Ivanov Radoslavov (pavlin@catarina.usc.edu)
  *
  *  $Id: debug.h,v 1.4 1998/05/29 21:58:22 kurtw Exp $
@@ -62,7 +62,7 @@ extern int log_nmsgs;
 #define DEBUG_DVMRP_TIMER     0x00000008
 #define DEBUG_DVMRP_DETAIL    0x01000000
 #define DEBUG_DVMRP           ( DEBUG_DVMRP_PRUNE | DEBUG_DVMRP_ROUTE | \
-				DEBUG_DVMRP_PEER )
+								DEBUG_DVMRP_PEER )
 
 /* IGMP related */
 #define DEBUG_IGMP_PROTO      0x00000010
@@ -70,7 +70,7 @@ extern int log_nmsgs;
 #define DEBUG_IGMP_MEMBER     0x00000040
 #define DEBUG_MEMBER          DEBUG_IGMP_MEMBER
 #define DEBUG_IGMP            ( DEBUG_IGMP_PROTO | DEBUG_IGMP_TIMER | \
-				DEBUG_IGMP_MEMBER )
+								DEBUG_IGMP_MEMBER )
 
 /* Misc */
 #define DEBUG_TRACE           0x00000080
@@ -98,15 +98,15 @@ extern int log_nmsgs;
 #define DEBUG_RPF             DEBUG_PIM_RPF
 #define DEBUG_PIM_DETAIL      0x00800000
 #define DEBUG_PIM             ( DEBUG_PIM_HELLO | DEBUG_PIM_REGISTER | \
-				DEBUG_PIM_JOIN_PRUNE | DEBUG_PIM_BOOTSTRAP | \
-				DEBUG_PIM_ASSERT | DEBUG_PIM_CAND_RP | \
-				DEBUG_PIM_MRT | DEBUG_PIM_TIMER | \
-				DEBUG_PIM_RPF | DEBUG_PIM_GRAFT ) 
+								DEBUG_PIM_JOIN_PRUNE | DEBUG_PIM_BOOTSTRAP | \
+								DEBUG_PIM_ASSERT | DEBUG_PIM_CAND_RP | \
+								DEBUG_PIM_MRT | DEBUG_PIM_TIMER | \
+								DEBUG_PIM_RPF | DEBUG_PIM_GRAFT )
 
 #define DEBUG_MRT             ( DEBUG_DVMRP_ROUTE | DEBUG_PIM_MRT )
 #define DEBUG_NEIGHBORS       ( DEBUG_DVMRP_PEER | DEBUG_PIM_HELLO )
 #define DEBUG_TIMER           ( DEBUG_IGMP_TIMER | DEBUG_DVMRP_TIMER | \
-				DEBUG_PIM_TIMER )
+								DEBUG_PIM_TIMER )
 #define DEBUG_ASSERT          ( DEBUG_PIM_ASSERT )
 #define DEBUG_ALL             0xffffffff
 

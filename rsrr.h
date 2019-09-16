@@ -78,21 +78,21 @@
 #define RSRR_THIS_SENDER_SHARED_TREE 2
 #define RSRR_ALL_SENDERS_SHARED_TREE 3
 #define RSRR_SET_ALL_SENDERS_SHARED_TREE(X)             \
-          BIT_SET((X), RSRR_ALL_SENDERS_SHARED_TREE);  \
-          BIT_CLR((X), RSRR_THIS_SENDER_SHARED_TREE);
+	BIT_SET((X), RSRR_ALL_SENDERS_SHARED_TREE);  \
+	BIT_CLR((X), RSRR_THIS_SENDER_SHARED_TREE);
 #define RSRR_THIS_SENDER_SHARED_TREE_SOME_OTHER_NOT(X)  \
-          BIT_SET((X), RSRR_THIS_SENDER_SHARED_TREE);   \
-          BIT_CLR((X), RSRR_ALL_SENDERS_SHARED_TREE)
+	BIT_SET((X), RSRR_THIS_SENDER_SHARED_TREE);   \
+	BIT_CLR((X), RSRR_ALL_SENDERS_SHARED_TREE)
 
 /* Definition of an RSRR message header.
  * An Initial Query uses only the header, and an Initial Reply uses
  * the header and a list of vifs.
  */
 struct rsrr_header {
-    u_int8 version;			/* RSRR Version, currently 1        */
-    u_int8 type;			/* type of message, as defined above*/
-    u_int8 flags;			/* flags; defined by type           */
-    u_int8 num;				/* number; defined by type          */
+	u_int8 version;			/* RSRR Version, currently 1        */
+	u_int8 type;			/* type of message, as defined above*/
+	u_int8 flags;			/* flags; defined by type           */
+	u_int8 num;				/* number; defined by type          */
 };
 
 /* Definition of a vif as seen by the reservation protocol.
@@ -115,14 +115,14 @@ struct rsrr_header {
  * packets are sent.
  */
 struct rsrr_vif {
-    u_int8 id;				/* vif id             */
-    u_int8 threshold;			/* vif threshold ttl  */
-    u_int16 status;			/* vif status bitmask */
-    u_int32 local_addr; 		/* vif local address  */
+	u_int8 id;				/* vif id             */
+	u_int8 threshold;			/* vif threshold ttl  */
+	u_int16 status;			/* vif status bitmask */
+	u_int32 local_addr; 		/* vif local address  */
 };
 
 /* Definition of an RSRR Route Query.
- * 
+ *
  * The query asks routing for the forwarding entry for a particular
  * source and destination.  The query ID uniquely identifies the query
  * for the reservation protocol.  Thus, the combination of the client's
@@ -130,9 +130,9 @@ struct rsrr_vif {
  * Flags are defined above.
  */
 struct rsrr_rq {
-    u_int32   dest_addr;		/* destination */
-    u_int32 source_addr;		/* source      */
-    u_int32 query_id;			/* query ID    */
+	u_int32   dest_addr;		/* destination */
+	u_int32 source_addr;		/* source      */
+	u_int32 query_id;			/* query ID    */
 };
 
 /* Definition of an RSRR Route Reply.
@@ -147,28 +147,28 @@ struct rsrr_rq {
  * Bug in the spec?
  */
 struct rsrr_rr {
-    u_int32 dest_addr;  		/* destination          */
-    u_int32 source_addr;		/* source               */
-    u_int32 query_id;			/* query ID             */
-    u_int16 in_vif;			/* incoming vif         */
-    u_int16 reserved;			/* reserved             */
-    u_int32 out_vif_bm;			/* outgoing vif bitmask */
+	u_int32 dest_addr;  		/* destination          */
+	u_int32 source_addr;		/* source               */
+	u_int32 query_id;			/* query ID             */
+	u_int16 in_vif;			/* incoming vif         */
+	u_int16 reserved;			/* reserved             */
+	u_int32 out_vif_bm;			/* outgoing vif bitmask */
 };
 
 
 /* TODO: XXX: THIS IS NOT IN THE SPEC! (OBSOLETE?) */
 #ifdef NOT_IN_THE_SPEC
 /* Definition of an RSRR Service Query/Reply.
- * 
+ *
  * The query asks routing to perform a service for a particular
  * source/destination combination.  The query also lists the vif
  * that the service applies to.
  */
 struct rsrr_sqr {
-    u_int32 dest_addr;                  /* destination */
-    u_int32 source_addr;                /* source      */
-    u_int32 query_id;                   /* query ID    */
-    u_int16 vif;                        /* vif         */
-    u_int16 reserved;                   /* reserved    */
+	u_int32 dest_addr;                  /* destination */
+	u_int32 source_addr;                /* source      */
+	u_int32 query_id;                   /* query ID    */
+	u_int16 vif;                        /* vif         */
+	u_int16 reserved;                   /* reserved    */
 };
 #endif /* NOT_IN_THE_SPEC */

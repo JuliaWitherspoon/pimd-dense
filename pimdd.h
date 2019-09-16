@@ -10,15 +10,15 @@
  *  documentation, and that any documentation, advertising materials,
  *  and other materials related to such distribution and use acknowledge
  *  that the software was developed by the University of Oregon.
- *  The name of the University of Oregon may not be used to endorse or 
- *  promote products derived from this software without specific prior 
+ *  The name of the University of Oregon may not be used to endorse or
+ *  promote products derived from this software without specific prior
  *  written permission.
  *
  *  THE UNIVERSITY OF OREGON DOES NOT MAKE ANY REPRESENTATIONS
  *  ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.  THIS SOFTWARE IS
  *  PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES,
  *  INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
- *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND 
+ *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
  *  NON-INFRINGEMENT.
  *
  *  IN NO EVENT SHALL UO, OR ANY OTHER CONTRIBUTOR BE LIABLE FOR ANY
@@ -30,7 +30,7 @@
  *  noted when applicable.
  */
 /*
- *  Questions concerning this software should be directed to 
+ *  Questions concerning this software should be directed to
  *  Kurt Windisch (kurtw@antc.uoregon.edu)
  *
  *  $Id: pimdd.h,v 1.6 1998/12/22 21:50:18 kurtw Exp $
@@ -39,18 +39,18 @@
  * Part of this program has been derived from PIM sparse-mode pimd.
  * The pimd program is covered by the license in the accompanying file
  * named "LICENSE.pimd".
- *  
+ *
  * The pimd program is COPYRIGHT 1998 by University of Southern California.
  *
  * Part of this program has been derived from mrouted.
  * The mrouted program is covered by the license in the accompanying file
  * named "LICENSE.mrouted".
- * 
+ *
  * The mrouted program is COPYRIGHT 1989 by The Board of Trustees of
  * Leland Stanford Junior University.
  *
  */
-
+#include <netdb.h>
 #include <netinet/pim.h>
 
 #define PIM_PROTOCOL_VERSION	2
@@ -136,9 +136,9 @@
 
 /* Encoded-Unicast: 6 bytes long */
 typedef struct pim_encod_uni_addr_ {
-    u_int8      addr_family;
-    u_int8      encod_type;
-    u_int32     unicast_addr;        /* XXX: Note the 32-bit boundary
+	u_int8      addr_family;
+	u_int8      encod_type;
+	u_int32     unicast_addr;        /* XXX: Note the 32-bit boundary
 				      * misalignment for  the unicast
 				      * address when placed in the
 				      * memory. Must read it byte-by-byte!
@@ -147,20 +147,20 @@ typedef struct pim_encod_uni_addr_ {
 
 /* Encoded-Group */
 typedef struct pim_encod_grp_addr_ {
-    u_int8      addr_family;
-    u_int8      encod_type;
-    u_int8      reserved;
-    u_int8      masklen;
-    u_int32     mcast_addr;
+	u_int8      addr_family;
+	u_int8      encod_type;
+	u_int8      reserved;
+	u_int8      masklen;
+	u_int32     mcast_addr;
 } pim_encod_grp_addr_t;
 
 /* Encoded-Source */
 typedef struct pim_encod_src_addr_ {
-    u_int8      addr_family;
-    u_int8      encod_type;
-    u_int8      flags;
-    u_int8      masklen;
-    u_int32     src_addr;
+	u_int8      addr_family;
+	u_int8      encod_type;
+	u_int8      flags;
+	u_int8      masklen;
+	u_int32     src_addr;
 } pim_encod_src_addr_t;
 #define USADDR_RP_BIT 0x1
 #define USADDR_WC_BIT 0x2
@@ -175,22 +175,22 @@ typedef struct pim pim_header_t;
 
 /* PIM Hello */
 typedef struct pim_hello_ {
-    u_int16     option_type;   /* Option type */
-    u_int16     option_length; /* Length of the Option Value field in bytes */
+	u_int16     option_type;   /* Option type */
+	u_int16     option_length; /* Length of the Option Value field in bytes */
 } pim_hello_t;
 
 /* PIM Join/Prune: XXX: all 32-bit addresses misaligned! */
 typedef struct pim_jp_header_ {
-    pim_encod_uni_addr_t encod_upstream_nbr;
-    u_int8     reserved;
-    u_int8     num_groups;
-    u_int16    holdtime;
+	pim_encod_uni_addr_t encod_upstream_nbr;
+	u_int8     reserved;
+	u_int8     num_groups;
+	u_int16    holdtime;
 } pim_jp_header_t;
 
 typedef struct pim_jp_encod_grp_ {
-    pim_encod_grp_addr_t   encod_grp;
-    u_int16                number_join_src;
-    u_int16                number_prune_src;
+	pim_encod_grp_addr_t   encod_grp;
+	u_int16                number_join_src;
+	u_int16                number_prune_src;
 } pim_jp_encod_grp_t;
 
 #define PIM_ACTION_NOTHING 0
@@ -204,17 +204,17 @@ typedef struct pim_jp_encod_grp_ {
 
 
 /* PIM messages type */
-#define PIM_HELLO               0
-#ifndef PIM_REGISTER
-#define PIM_REGISTER            1
-#endif
-#define PIM_REGISTER_STOP       2
-#define PIM_JOIN_PRUNE          3
-#define PIM_BOOTSTRAP		4
-#define PIM_ASSERT              5
-#define PIM_GRAFT               6
-#define PIM_GRAFT_ACK           7
-#define PIM_CAND_RP_ADV         8
+//#define PIM_HELLO               0
+//#ifndef PIM_REGISTER
+//#define PIM_REGISTER            1
+//#endif
+//#define PIM_REGISTER_STOP       2
+//#define PIM_JOIN_PRUNE          3
+//#define PIM_BOOTSTRAP		4
+//#define PIM_ASSERT              5
+//#define PIM_GRAFT               6
+//#define PIM_GRAFT_ACK           7
+//#define PIM_CAND_RP_ADV         8
 
 #define PIM_V2_HELLO            PIM_HELLO
 #define PIM_V2_REGISTER         PIM_REGISTER
@@ -243,19 +243,19 @@ typedef struct pim_jp_encod_grp_ {
 
 
 #define MASK_TO_MASKLEN(mask, masklen)                           \
-    do {                                                         \
-        register u_int32 tmp_mask = ntohl((mask));               \
-        register u_int8  tmp_masklen = sizeof((mask)) << 3;      \
-        for ( ; tmp_masklen > 0; tmp_masklen--, tmp_mask >>= 1)  \
-            if (tmp_mask & 0x1)                                  \
-                break;                                           \
-        (masklen) = tmp_masklen;                                 \
-    } while (0)
+	do {                                                         \
+		register u_int32 tmp_mask = ntohl((mask));               \
+		register u_int8  tmp_masklen = sizeof((mask)) << 3;      \
+		for ( ; tmp_masklen > 0; tmp_masklen--, tmp_mask >>= 1)  \
+			if (tmp_mask & 0x1)                                  \
+				break;                                           \
+		(masklen) = tmp_masklen;                                 \
+	} while (0)
 
 #define MASKLEN_TO_MASK(masklen, mask)                                       \
-do {                                                                         \
-    (mask) = (masklen)? htonl(~0 << ((sizeof((mask)) << 3) - (masklen))) : 0;\
-} while (0)
+	do {                                                                         \
+		(mask) = (masklen)? htonl(~0 << ((sizeof((mask)) << 3) - (masklen))) : 0;\
+	} while (0)
 
 
 /*
@@ -277,81 +277,81 @@ do {                                                                         \
 #define PUT_BYTE(val, cp)       (*(cp)++ = (u_int8)(val))
 
 #define GET_HOSTSHORT(val, cp)                  \
-        do {                                    \
-                register u_int16 Xv;            \
-                Xv = (*(cp)++) << 8;            \
-                Xv |= *(cp)++;                  \
-                (val) = Xv;                     \
-        } while (0)
+	do {                                    \
+		register u_int16 Xv;            \
+		Xv = (*(cp)++) << 8;            \
+		Xv |= *(cp)++;                  \
+		(val) = Xv;                     \
+	} while (0)
 
 #define PUT_HOSTSHORT(val, cp)                  \
-        do {                                    \
-                register u_int16 Xv;            \
-                Xv = (u_int16)(val);            \
-                *(cp)++ = (u_int8)(Xv >> 8);    \
-                *(cp)++ = (u_int8)Xv;           \
-        } while (0)
+	do {                                    \
+		register u_int16 Xv;            \
+		Xv = (u_int16)(val);            \
+		*(cp)++ = (u_int8)(Xv >> 8);    \
+		*(cp)++ = (u_int8)Xv;           \
+	} while (0)
 
 #if defined(BYTE_ORDER) && (BYTE_ORDER == LITTLE_ENDIAN)
 #define GET_NETSHORT(val, cp)                   \
-        do {                                    \
-                register u_int16 Xv;            \
-                Xv = *(cp)++;                   \
-                Xv |= (*(cp)++) << 8;           \
-                (val) = Xv;                     \
-        } while (0)
+	do {                                    \
+		register u_int16 Xv;            \
+		Xv = *(cp)++;                   \
+		Xv |= (*(cp)++) << 8;           \
+		(val) = Xv;                     \
+	} while (0)
 #define PUT_NETSHORT(val, cp)                   \
-        do {                                    \
-                register u_int16 Xv;            \
-                Xv = (u_int16)(val);            \
-                *(cp)++ = (u_int8)Xv;           \
-                *(cp)++ = (u_int8)(Xv >> 8);    \
-        } while (0)
+	do {                                    \
+		register u_int16 Xv;            \
+		Xv = (u_int16)(val);            \
+		*(cp)++ = (u_int8)Xv;           \
+		*(cp)++ = (u_int8)(Xv >> 8);    \
+	} while (0)
 #else
 #define GET_NETSHORT(val, cp) GET_HOSTSHORT(val, cp)
 #define PUT_NETSHORT(val, cp) PUT_HOSTSHORT(val, cp)
 #endif /* {GET,PUT}_NETSHORT */
 
 #define GET_HOSTLONG(val, cp)                   \
-        do {                                    \
-                register u_long Xv;             \
-                Xv  = (*(cp)++) << 24;          \
-                Xv |= (*(cp)++) << 16;          \
-                Xv |= (*(cp)++) <<  8;          \
-                Xv |= *(cp)++;                  \
-                (val) = Xv;                     \
-        } while (0)
+	do {                                    \
+		register u_long Xv;             \
+		Xv  = (*(cp)++) << 24;          \
+		Xv |= (*(cp)++) << 16;          \
+		Xv |= (*(cp)++) <<  8;          \
+		Xv |= *(cp)++;                  \
+		(val) = Xv;                     \
+	} while (0)
 
 #define PUT_HOSTLONG(val, cp)                   \
-        do {                                    \
-                register u_int32 Xv;            \
-                Xv = (u_int32)(val);            \
-                *(cp)++ = (u_int8)(Xv >> 24);   \
-                *(cp)++ = (u_int8)(Xv >> 16);   \
-                *(cp)++ = (u_int8)(Xv >>  8);   \
-                *(cp)++ = (u_int8)Xv;           \
-        } while (0)
+	do {                                    \
+		register u_int32 Xv;            \
+		Xv = (u_int32)(val);            \
+		*(cp)++ = (u_int8)(Xv >> 24);   \
+		*(cp)++ = (u_int8)(Xv >> 16);   \
+		*(cp)++ = (u_int8)(Xv >>  8);   \
+		*(cp)++ = (u_int8)Xv;           \
+	} while (0)
 
 #if defined(BYTE_ORDER) && (BYTE_ORDER == LITTLE_ENDIAN)
 #define GET_NETLONG(val, cp)                    \
-        do {                                    \
-                register u_long Xv;             \
-                Xv  = *(cp)++;                  \
-                Xv |= (*(cp)++) <<  8;          \
-                Xv |= (*(cp)++) << 16;          \
-                Xv |= (*(cp)++) << 24;          \
-                (val) = Xv;                     \
-        } while (0)
+	do {                                    \
+		register u_long Xv;             \
+		Xv  = *(cp)++;                  \
+		Xv |= (*(cp)++) <<  8;          \
+		Xv |= (*(cp)++) << 16;          \
+		Xv |= (*(cp)++) << 24;          \
+		(val) = Xv;                     \
+	} while (0)
 
 #define PUT_NETLONG(val, cp)                    \
-        do {                                    \
-                register u_int32 Xv;            \
-                Xv = (u_int32)(val);            \
-                *(cp)++ = (u_int8)Xv;           \
-                *(cp)++ = (u_int8)(Xv >>  8);   \
-                *(cp)++ = (u_int8)(Xv >> 16);   \
-                *(cp)++ = (u_int8)(Xv >> 24);   \
-        } while (0)
+	do {                                    \
+		register u_int32 Xv;            \
+		Xv = (u_int32)(val);            \
+		*(cp)++ = (u_int8)Xv;           \
+		*(cp)++ = (u_int8)(Xv >>  8);   \
+		*(cp)++ = (u_int8)(Xv >> 16);   \
+		*(cp)++ = (u_int8)(Xv >> 24);   \
+	} while (0)
 #else
 #define GET_NETLONG(val, cp) GET_HOSTLONG(val, cp)
 #define PUT_NETLONG(val, cp) PUT_HOSTLONG(val, cp)
@@ -359,58 +359,58 @@ do {                                                                         \
 
 
 #define GET_ESADDR(esa, cp)                     \
-        do {                                    \
-            (esa)->addr_family = *(cp)++;       \
-            (esa)->encod_type  = *(cp)++;       \
-            (esa)->flags       = *(cp)++;       \
-            (esa)->masklen     = *(cp)++;       \
-            GET_NETLONG((esa)->src_addr, (cp)); \
-        } while(0)
+	do {                                    \
+		(esa)->addr_family = *(cp)++;       \
+		(esa)->encod_type  = *(cp)++;       \
+		(esa)->flags       = *(cp)++;       \
+		(esa)->masklen     = *(cp)++;       \
+		GET_NETLONG((esa)->src_addr, (cp)); \
+	} while(0)
 
 #define PUT_ESADDR(addr, masklen, flags, cp)    \
-        do {                                    \
-            u_int32 mask;                       \
-            MASKLEN_TO_MASK((masklen), mask);   \
-            *(cp)++ = ADDRF_IPv4; /* family */  \
-            *(cp)++ = ADDRT_IPv4; /* type   */  \
-            *(cp)++ = (flags);    /* flags  */  \
-            *(cp)++ = (masklen);                \
-            PUT_NETLONG((addr) & mask, (cp));   \
-        } while(0)
+	do {                                    \
+		u_int32 mask;                       \
+		MASKLEN_TO_MASK((masklen), mask);   \
+		*(cp)++ = ADDRF_IPv4; /* family */  \
+		*(cp)++ = ADDRT_IPv4; /* type   */  \
+		*(cp)++ = (flags);    /* flags  */  \
+		*(cp)++ = (masklen);                \
+		PUT_NETLONG((addr) & mask, (cp));   \
+	} while(0)
 
 #define GET_EGADDR(ega, cp)                     \
-        do {                                    \
-            (ega)->addr_family = *(cp)++;       \
-            (ega)->encod_type  = *(cp)++;       \
-            (ega)->reserved    = *(cp)++;       \
-            (ega)->masklen     = *(cp)++;       \
-            GET_NETLONG((ega)->mcast_addr, (cp)); \
-        } while(0)
+	do {                                    \
+		(ega)->addr_family = *(cp)++;       \
+		(ega)->encod_type  = *(cp)++;       \
+		(ega)->reserved    = *(cp)++;       \
+		(ega)->masklen     = *(cp)++;       \
+		GET_NETLONG((ega)->mcast_addr, (cp)); \
+	} while(0)
 
 #define PUT_EGADDR(addr, masklen, reserved, cp) \
-        do {                                    \
-            u_int32 mask;                       \
-            MASKLEN_TO_MASK((masklen), mask);   \
-            *(cp)++ = ADDRF_IPv4; /* family */  \
-            *(cp)++ = ADDRT_IPv4; /* type   */  \
-            *(cp)++ = (reserved); /* reserved; should be 0 */  \
-            *(cp)++ = (masklen);                \
-            PUT_NETLONG((addr) & mask, (cp)); \
-        } while(0)
+	do {                                    \
+		u_int32 mask;                       \
+		MASKLEN_TO_MASK((masklen), mask);   \
+		*(cp)++ = ADDRF_IPv4; /* family */  \
+		*(cp)++ = ADDRT_IPv4; /* type   */  \
+		*(cp)++ = (reserved); /* reserved; should be 0 */  \
+		*(cp)++ = (masklen);                \
+		PUT_NETLONG((addr) & mask, (cp)); \
+	} while(0)
 
 #define GET_EUADDR(eua, cp)                     \
-        do {                                    \
-            (eua)->addr_family = *(cp)++;       \
-            (eua)->encod_type  = *(cp)++;       \
-            GET_NETLONG((eua)->unicast_addr, (cp)); \
-        } while(0)
+	do {                                    \
+		(eua)->addr_family = *(cp)++;       \
+		(eua)->encod_type  = *(cp)++;       \
+		GET_NETLONG((eua)->unicast_addr, (cp)); \
+	} while(0)
 
 #define PUT_EUADDR(addr, cp)                    \
-        do {                                    \
-            *(cp)++ = ADDRF_IPv4; /* family */  \
-            *(cp)++ = ADDRT_IPv4; /* type   */  \
-            PUT_NETLONG((addr), (cp));          \
-        } while(0)
+	do {                                    \
+		*(cp)++ = ADDRF_IPv4; /* family */  \
+		*(cp)++ = ADDRT_IPv4; /* type   */  \
+		PUT_NETLONG((addr), (cp));          \
+	} while(0)
 
 
 /* TODO: Currently not used. Probably not need at all. Delete! */
@@ -423,17 +423,17 @@ do {                                                                         \
 /*
  * Struct used to communicate from kernel to multicast router
  * note the convenient similarity to an IP packet
- */ 
+ */
 struct igmpmsg {
-    u_long          unused1;
-    u_long          unused2;
-    u_char          im_msgtype;                 /* what type of message     */
+	u_long          unused1;
+	u_long          unused2;
+	u_char          im_msgtype;                 /* what type of message     */
 #define IGMPMSG_NOCACHE         1
 #define IGMPMSG_WRONGVIF        2
 #define IGMPMSG_WHOLEPKT        3               /* used for user level encap*/
-    u_char          im_mbz;                     /* must be zero             */
-    u_char          im_vif;                     /* vif rec'd on             */
-    u_char          unused3;
-    struct in_addr  im_src, im_dst;
+	u_char          im_mbz;                     /* must be zero             */
+	u_char          im_vif;                     /* vif rec'd on             */
+	u_char          unused3;
+	struct in_addr  im_src, im_dst;
 };
 #endif

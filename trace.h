@@ -19,7 +19,7 @@
  *  ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.  THIS SOFTWARE IS
  *  PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES,
  *  INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
- *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND 
+ *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
  *  NON-INFRINGEMENT.
  *
  *  IN NO EVENT SHALL USC, OR ANY OTHER CONTRIBUTOR BE LIABLE FOR ANY
@@ -31,7 +31,7 @@
  *  noted when applicable.
  */
 /*
- *  Questions concerning this software should be directed to 
+ *  Questions concerning this software should be directed to
  *  Pavlin Ivanov Radoslavov (pavlin@catarina.usc.edu)
  *
  *  $Id: trace.h,v 1.1.1.1 1998/05/11 17:39:34 kurtw Exp $
@@ -51,19 +51,19 @@
  * The packet format for a traceroute request.
  */
 struct tr_query {
-    u_int32  tr_src;		/* traceroute source */
-    u_int32  tr_dst;		/* traceroute destination */
-    u_int32  tr_raddr;		/* traceroute response address */
+	u_int32  tr_src;		/* traceroute source */
+	u_int32  tr_dst;		/* traceroute destination */
+	u_int32  tr_raddr;		/* traceroute response address */
 #if defined(BYTE_ORDER) && (BYTE_ORDER == LITTLE_ENDIAN)
-    struct {
-	u_int	qid : 24;	/* traceroute query id */
-	u_int	ttl : 8;	/* traceroute response ttl */
-    } q;
+	struct {
+		u_int	qid : 24;	/* traceroute query id */
+		u_int	ttl : 8;	/* traceroute response ttl */
+	} q;
 #else
-    struct {
-	u_int   ttl : 8;	/* traceroute response ttl */
-	u_int   qid : 24;	/* traceroute query id */
-    } q;
+	struct {
+		u_int   ttl : 8;	/* traceroute response ttl */
+		u_int   qid : 24;	/* traceroute query id */
+	} q;
 #endif /* BYTE_ORDER */
 };
 
@@ -75,17 +75,17 @@ struct tr_query {
  * beginning, followed by one tr_resp for each hop taken.
  */
 struct tr_resp {
-    u_int32 tr_qarr;		/* query arrival time */
-    u_int32 tr_inaddr;		/* incoming interface address */
-    u_int32 tr_outaddr;		/* outgoing interface address */
-    u_int32 tr_rmtaddr;		/* parent address in source tree */
-    u_int32 tr_vifin;		/* input packet count on interface */
-    u_int32 tr_vifout;		/* output packet count on interface */
-    u_int32 tr_pktcnt;		/* total incoming packets for src-grp */
-    u_char  tr_rproto;		/* routing protocol deployed on router */
-    u_char  tr_fttl;		/* ttl required to forward on outvif */
-    u_char  tr_smask;		/* subnet mask for src addr */
-    u_char  tr_rflags;		/* forwarding error codes */
+	u_int32 tr_qarr;		/* query arrival time */
+	u_int32 tr_inaddr;		/* incoming interface address */
+	u_int32 tr_outaddr;		/* outgoing interface address */
+	u_int32 tr_rmtaddr;		/* parent address in source tree */
+	u_int32 tr_vifin;		/* input packet count on interface */
+	u_int32 tr_vifout;		/* output packet count on interface */
+	u_int32 tr_pktcnt;		/* total incoming packets for src-grp */
+	u_char  tr_rproto;		/* routing protocol deployed on router */
+	u_char  tr_fttl;		/* ttl required to forward on outvif */
+	u_char  tr_smask;		/* subnet mask for src addr */
+	u_char  tr_rflags;		/* forwarding error codes */
 };
 
 /* defs within mtrace */
@@ -127,14 +127,14 @@ struct tr_resp {
 #define PROTO_DVMRP_STATIC 7
 
 #define MASK_TO_VAL(x, i) { \
-			u_int32 _x = ntohl(x); \
-			(i) = 1; \
-			while ((_x) <<= 1) \
-				(i)++; \
-			};
+		u_int32 _x = ntohl(x); \
+		(i) = 1; \
+		while ((_x) <<= 1) \
+			(i)++; \
+	};
 
 #define VAL_TO_MASK(x, i) { \
-			x = htonl(~((1 << (32 - (i))) - 1)); \
-			};
+		x = htonl(~((1 << (32 - (i))) - 1)); \
+	};
 
 #define NBR_VERS(n)	(((n)->al_pv << 8) + (n)->al_mv)

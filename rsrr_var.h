@@ -33,9 +33,9 @@
  * that the cache will be flushed when the kernel table entry is
  * deleted.  */
 struct rsrr_cache {
-    struct rsrr_rq route_query;		/* Cached Route Query */
-    struct sockaddr_un client_addr;	/* Client address     */
-    int client_length;			/* Length of client   */
-    struct rsrr_cache *next;		/* next cache item    */
+	struct rsrr_rq route_query;		/* Cached Route Query */
+	struct sockaddr_un client_addr;	/* Client address     */
+	int client_length;			/* Length of client   */
+	struct rsrr_cache *next;		/* next cache item    */
 };
 

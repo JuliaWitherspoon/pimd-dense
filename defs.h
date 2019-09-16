@@ -10,15 +10,15 @@
  *  documentation, and that any documentation, advertising materials,
  *  and other materials related to such distribution and use acknowledge
  *  that the software was developed by the University of Oregon.
- *  The name of the University of Oregon may not be used to endorse or 
- *  promote products derived from this software without specific prior 
+ *  The name of the University of Oregon may not be used to endorse or
+ *  promote products derived from this software without specific prior
  *  written permission.
  *
  *  THE UNIVERSITY OF OREGON DOES NOT MAKE ANY REPRESENTATIONS
  *  ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.  THIS SOFTWARE IS
  *  PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES,
  *  INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
- *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND 
+ *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
  *  NON-INFRINGEMENT.
  *
  *  IN NO EVENT SHALL UO, OR ANY OTHER CONTRIBUTOR BE LIABLE FOR ANY
@@ -30,7 +30,7 @@
  *  noted when applicable.
  */
 /*
- *  Questions concerning this software should be directed to 
+ *  Questions concerning this software should be directed to
  *  Kurt Windisch (kurtw@antc.uoregon.edu)
  *
  *  $Id: defs.h,v 1.18 1998/12/22 21:50:17 kurtw Exp $
@@ -39,13 +39,13 @@
  * Part of this program has been derived from PIM sparse-mode pimd.
  * The pimd program is covered by the license in the accompanying file
  * named "LICENSE.pimd".
- *  
+ *
  * The pimd program is COPYRIGHT 1998 by University of Southern California.
  *
  * Part of this program has been derived from mrouted.
  * The mrouted program is covered by the license in the accompanying file
  * named "LICENSE.mrouted".
- * 
+ *
  * The mrouted program is COPYRIGHT 1989 by The Board of Trustees of
  * Leland Stanford Junior University.
  *
@@ -53,12 +53,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h> 
+#include <unistd.h>
 #include <ctype.h>
 #include <errno.h>
 #include <syslog.h>
-#include <signal.h> 
-#include <string.h> 
+#include <signal.h>
+#include <string.h>
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -127,7 +127,7 @@ typedef void (*ihfunc_t) __P((int, fd_set *));
  * Various definitions to make it working for different platforms
  */
 /* The old style sockaddr definition doesn't have sa_len */
-#if (defined(BSD) && (BSD >= 199006)) /* sa_len was added with 4.3-Reno */ 
+#if (defined(BSD) && (BSD >= 199006)) /* sa_len was added with 4.3-Reno */
 #define HAVE_SA_LEN
 #endif
 
@@ -171,12 +171,12 @@ typedef void (*ihfunc_t) __P((int, fd_set *));
  * ones don't, so we define it conditionally here.
  */
 #ifndef INADDR_ALLRTRS_GROUP
-					/* address for multicast mtrace msg */
+/* address for multicast mtrace msg */
 #define INADDR_ALLRTRS_GROUP	(u_int32)0xe0000002	/* 224.0.0.2 */
 #endif
 
 #ifndef INADDR_MAX_LOCAL_GROUP
-define INADDR_MAX_LOCAL_GROUP        (u_int32)0xe00000ff     /* 224.0.0.255 */
+define INADDR_MAX_LOCAL_GROUP(u_int32)0xe00000ff             /* 224.0.0.255 */
 #endif
 
 #define INADDR_ANY_N            (u_int32)0x00000000     /* INADDR_ANY in
@@ -285,7 +285,7 @@ extern char *		sys_errlist[];
 #define IF_TIMER_NOT_SET(timer) if ((timer) <= 0)
 #define FIRE_TIMER(timer)       (timer) = 0
 
-/* XXX Timer will never decrement below 0 - does this work with age_routes? 
+/* XXX Timer will never decrement below 0 - does this work with age_routes?
  */
 #define IF_TIMEOUT(timer)		\
 	if (!((timer) -= (MIN(timer, TIMER_INTERVAL))))
@@ -301,19 +301,19 @@ extern char *		sys_errlist[];
 
 #if 0
 #define IF_TIMEOUT(value)     \
-  if (!(((value) >= TIMER_INTERVAL) && ((value) -= TIMER_INTERVAL)))
+	if (!(((value) >= TIMER_INTERVAL) && ((value) -= TIMER_INTERVAL)))
 
 #define IF_NOT_TIMEOUT(value) \
-  if (((value) >= TIMER_INTERVAL) && ((value) -= TIMER_INTERVAL))
+	if (((value) >= TIMER_INTERVAL) && ((value) -= TIMER_INTERVAL))
 
 #define TIMEOUT(value)        \
-     (!(((value) >= TIMER_INTERVAL) && ((value) -= TIMER_INTERVAL)))
+	(!(((value) >= TIMER_INTERVAL) && ((value) -= TIMER_INTERVAL)))
 
 #define NOT_TIMEOUT(value)    \
-     (((value) >= TIMER_INTERVAL) && ((value) -= TIMER_INTERVAL))
+	(((value) >= TIMER_INTERVAL) && ((value) -= TIMER_INTERVAL))
 #endif /* 0 */
 
-#define ELSE else           /* To make emacs cc-mode happy */      
+#define ELSE else           /* To make emacs cc-mode happy */
 
 
 /*
@@ -346,42 +346,42 @@ extern void     dump_pim_mrt __P((FILE *fp));
 
 /* dvmrp_proto.c */
 extern void	dvmrp_accept_probe             __P((u_int32 src, u_int32 dst,
-						    char *p, int datalen,
-						    u_int32 level));
+		char *p, int datalen,
+		u_int32 level));
 extern void	dvmrp_accept_report            __P((u_int32 src, u_int32 dst,
-						    char *p, int datalen,
-						    u_int32 level));
+		char *p, int datalen,
+		u_int32 level));
 extern void	dvmrp_accept_info_request      __P((u_int32 src, u_int32 dst,
-						    u_char *p, int datalen));
+		u_char *p, int datalen));
 extern void	dvmrp_accept_info_reply        __P((u_int32 src, u_int32 dst,
-						    u_char *p, int datalen));
+		u_char *p, int datalen));
 extern void	dvmrp_accept_neighbors         __P((u_int32 src, u_int32 dst,
-						    u_char *p, int datalen,
-						    u_int32 level));
+		u_char *p, int datalen,
+		u_int32 level));
 extern void	dvmrp_accept_neighbors2        __P((u_int32 src, u_int32 dst,
-						    u_char *p, int datalen,
-						    u_int32 level));
+		u_char *p, int datalen,
+		u_int32 level));
 extern void	dvmrp_accept_prune             __P((u_int32 src, u_int32 dst,
-						    char *p, int datalen));
+		char *p, int datalen));
 extern void	dvmrp_accept_graft             __P((u_int32 src, u_int32 dst,
-						    char *p, int datalen));
+		char *p, int datalen));
 extern void	dvmrp_accept_g_ack             __P((u_int32 src, u_int32 dst,
-						    char *p, int datalen));
+		char *p, int datalen));
 
 /* igmp.c */
 extern void     init_igmp     __P(());
 extern void     send_igmp     __P((char *buf, u_int32 src, u_int32 dst,
-				   int type, int code, u_int32 group,
-				   int datalen));
+								   int type, int code, u_int32 group,
+								   int datalen));
 
 /* igmp_proto.c */
 extern void     query_groups            __P((struct uvif *v));
 extern void     accept_membership_query __P((u_int32 src, u_int32 dst,
-					     u_int32 group, int tmo));
+		u_int32 group, int tmo));
 extern void     accept_group_report     __P((u_int32 src, u_int32 dst,
-					     u_int32 group, int r_type));
+		u_int32 group, int r_type));
 extern void     accept_leave_message    __P((u_int32 src, u_int32 dst,
-					     u_int32 group));
+		u_int32 group));
 extern int      check_grp_membership    __P((struct uvif *v, u_int32 group));
 
 /* inet.c */
@@ -407,15 +407,15 @@ extern void     k_leave         __P((int socket, u_int32 grp, u_int32 ifa));
 extern void     k_init_pim      __P(());
 extern void     k_stop_pim      __P(());
 extern int      k_del_mfc       __P((int socket, u_int32 source,
-				     u_int32 group));
+									 u_int32 group));
 extern int      k_chg_mfc       __P((int socket, u_int32 source,
-				     u_int32 group, vifi_t iif,
-				     vifbitmap_t oifs));
+									 u_int32 group, vifi_t iif,
+									 vifbitmap_t oifs));
 extern void     k_add_vif       __P((int socket, vifi_t vifi, struct uvif *v));
 extern void     k_del_vif       __P((int socket, vifi_t vifi));
 extern int      k_get_vif_count __P((vifi_t vifi, struct vif_count *retval));
 extern int      k_get_sg_cnt    __P((int socket, u_int32 source,
-				     u_int32 group, struct sg_count *retval));
+									 u_int32 group, struct sg_count *retval));
 
 /* main.c */
 extern int      register_input_handler __P((int fd, ihfunc_t func));
@@ -423,8 +423,8 @@ extern int      register_input_handler __P((int fd, ihfunc_t func));
 /* mrt.c */
 extern void         init_pim_mrt             __P(());
 extern mrtentry_t   *find_route              __P((u_int32 source,
-						  u_int32 group,
-						  u_int16 flags, char create));
+		u_int32 group,
+		u_int16 flags, char create));
 extern grpentry_t   *find_group              __P((u_int32 group));
 extern srcentry_t   *find_source             __P((u_int32 source));
 extern void         delete_mrtentry          __P((mrtentry_t *mrtentry_ptr));
@@ -434,53 +434,53 @@ extern void         delete_grpentry          __P((grpentry_t *grpentry_ptr));
 /* pim.c */
 extern void         init_pim         __P(());
 extern void         send_pim         __P((char *buf, u_int32 src, u_int32 dst,
-					  int type, int datalen));
+		int type, int datalen));
 extern void         send_pim_unicast __P((char *buf, u_int32 src, u_int32 dst,
-					  int type, int datalen));
+		int type, int datalen));
 
 /* pim_proto.c */
 extern int receive_pim_hello         __P((u_int32 src, u_int32 dst,
-					  char *pim_message, int datalen));
+		char *pim_message, int datalen));
 extern int send_pim_hello            __P((struct uvif *v, u_int16 holdtime));
 extern void delete_pim_nbr           __P((pim_nbr_entry_t *nbr_delete));
 extern int receive_pim_join_prune    __P((u_int32 src, u_int32 dst,
-					  char *pim_message, int datalen));
+		char *pim_message, int datalen));
 extern int send_pim_jp               __P((mrtentry_t *mrtentry_ptr, int action,
-					  vifi_t vifi, u_int32 target_addr, 
-					  u_int16 holdtime));
+		vifi_t vifi, u_int32 target_addr,
+		u_int16 holdtime));
 extern int receive_pim_assert        __P((u_int32 src, u_int32 dst,
-					  char *pim_message, int datalen));
+		char *pim_message, int datalen));
 extern int send_pim_assert           __P((u_int32 source, u_int32 group,
-					  vifi_t vifi,
-					  u_int32 local_preference,
-					  u_int32 local_metric));
+		vifi_t vifi,
+		u_int32 local_preference,
+		u_int32 local_metric));
 extern void delete_pim_graft_entry   __P((mrtentry_t *mrtentry_ptr));
-extern int receive_pim_graft         __P((u_int32 src, u_int32 dst, 
-					  char *pim_message, int datalen,
-					  int pimtype));
+extern int receive_pim_graft         __P((u_int32 src, u_int32 dst,
+		char *pim_message, int datalen,
+		int pimtype));
 extern int send_pim_graft            __P((mrtentry_t *mrtentry_ptr));
 
 
 /* route.c */
 extern int    set_incoming           __P((srcentry_t *srcentry_ptr,
-					  int srctype));
+		int srctype));
 extern vifi_t get_iif                __P((u_int32 source));
 extern pim_nbr_entry_t *find_pim_nbr __P((u_int32 source));
 extern int    add_sg_oif             __P((mrtentry_t *mrtentry_ptr,
-					  vifi_t vifi,
-					  u_int16 holdtime,
-					  int update_holdtime));
+		vifi_t vifi,
+		u_int16 holdtime,
+		int update_holdtime));
 extern void   add_leaf               __P((vifi_t vifi, u_int32 source,
-					  u_int32 group));
+		u_int32 group));
 extern void   delete_leaf            __P((vifi_t vifi, u_int32 source,
-					  u_int32 group));
+		u_int32 group));
 extern void   set_leaves             __P((mrtentry_t *mrtentry_ptr));
 extern int    change_interfaces      __P((mrtentry_t *mrtentry_ptr,
-					  vifi_t new_iif,
-					  vifbitmap_t new_pruned_oifs,
-					  vifbitmap_t new_leaves_));
+		vifi_t new_iif,
+		vifbitmap_t new_pruned_oifs,
+		vifbitmap_t new_leaves_));
 extern void   calc_oifs              __P((mrtentry_t *mrtentry_ptr,
-                                       vifbitmap_t *oifs_ptr));
+		vifbitmap_t *oifs_ptr));
 extern void   process_kernel_call    __P(());
 extern int    delete_vif_from_mrt    __P((vifi_t vifi));
 extern void   trigger_join_alert     __P((mrtentry_t *mrtentry_ptr));
@@ -489,7 +489,7 @@ extern void   trigger_prune_alert    __P((mrtentry_t *mrtentry_ptr));
 
 /* routesock.c */
 extern int    k_req_incoming         __P((u_int32 source,
-					  struct rpfctl *rpfp));
+		struct rpfctl *rpfp));
 #ifdef HAVE_ROUTING_SOCKETS
 extern int    init_routesock         __P(());
 #endif /* HAVE_ROUTING_SOCKETS */
@@ -516,8 +516,8 @@ extern int  clean_srclist               __P(());
 /* trace.c */
 /* u_int is promoted u_char */
 extern void	accept_mtrace            __P((u_int32 src, u_int32 dst,
-					      u_int32 group, char *data,
-					      u_int no, int datalen));
+		u_int32 group, char *data,
+		u_int no, int datalen));
 extern void	accept_neighbor_request  __P((u_int32 src, u_int32 dst));
 extern void	accept_neighbor_request2 __P((u_int32 src, u_int32 dst));
 

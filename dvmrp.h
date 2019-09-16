@@ -89,7 +89,7 @@
 #define DVMRP_PROBE		1	/* for finding neighbors             */
 #define DVMRP_REPORT		2	/* for reporting some or all routes  */
 #define DVMRP_ASK_NEIGHBORS	3	/* sent by mapper, asking for a list */
-					/* of this router's neighbors. */
+/* of this router's neighbors. */
 #define DVMRP_NEIGHBORS		4	/* response to such a request */
 #define DVMRP_ASK_NEIGHBORS2	5	/* as above, want new format reply */
 #define DVMRP_NEIGHBORS2	6
@@ -125,18 +125,18 @@
 #define MAX_IP_HEADER_LEN	60
 */
 #define MAX_DVMRP_DATA_LEN \
-		( MAX_IP_PACKET_LEN - MAX_IP_HEADER_LEN - IGMP_MINLEN )
+	( MAX_IP_PACKET_LEN - MAX_IP_HEADER_LEN - IGMP_MINLEN )
 
 /*
  * Various protocol constants (all times in seconds)
  */
-				        /* address for multicast DVMRP msgs */
+/* address for multicast DVMRP msgs */
 #define INADDR_DVMRP_GROUP	(u_int32)0xe0000004     /* 224.0.0.4 */
 
 #define DVMRP_ROUTE_MAX_REPORT_DELAY  5	/* max delay for reporting changes  */
-					/*  (This is the timer interrupt    */
-					/*  interval; all times must be     */
-					/*  multiples of this value.)       */
+/*  (This is the timer interrupt    */
+/*  interval; all times must be     */
+/*  multiples of this value.)       */
 
 #define	DVMRP_ROUTE_REPORT_INTERVAL  60	/* periodic route report interval   */
 #define DVMRP_ROUTE_SWITCH_TIME	    140	/* time to switch to equivalent gw  */
@@ -148,7 +148,7 @@
 #define DVMRP_OLD_NEIGHBOR_EXPIRE_TIME 140 /* time to consider neighbor gone */
 #define DVMRP_UNREACHABLE	      32 /* "infinity" metric, must be <= 64 */
 
-  /* TODO: remove the DVMRP prefix and merge it with the PIM code? */
+/* TODO: remove the DVMRP prefix and merge it with the PIM code? */
 #define DVMRP_MAX_RATE_LIMIT      100000 /* max rate limit     	    	    */
 #define DVMRP_DEFAULT_PHY_RATE_LIMIT   0 /* default phyint rate limit  	    */
 #define DVMRP_DEFAULT_TUN_RATE_LIMIT 500 /* default tunnel rate limit	    */
@@ -161,7 +161,7 @@
 #define	DVMRP_PRUNE_REXMIT_VAL	       3 /* initial time for prune rexmission*/
 
 #define DVMRP_OLD_AGE_THRESHOLD	       2 /* # of query intervals to remember */
-					 /* presence of IGMPv1 member	     */
-					 /* XXX NOTE that this technically   */
-					 /* violates IGMPv2 draft as the     */
-					 /* timer is 5 seconds too short     */
+/* presence of IGMPv1 member	     */
+/* XXX NOTE that this technically   */
+/* violates IGMPv2 draft as the     */
+/* timer is 5 seconds too short     */

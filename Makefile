@@ -53,7 +53,8 @@ PROG_CVS_LAST_VERSION = ${PROG_NAME}_${CVS_LAST_VERSION}
 # Support for Resource Reservations), currently used by RSVP.
 RSRRDEF=	-DRSRR
 
-CC?=		gcc
+#CC?=		gcc
+CC:= mips64-octeon-linux-gnu-gcc
 MCAST_INCLUDE=	-Iinclude
 LDFLAGS=
 PREFIX?=
@@ -90,7 +91,7 @@ PURIFY=		purify -cache-dir=/tmp -collector=/import/pkgs/gcc/lib/gcc-lib/sparc-su
 #LIB2=		-L/usr/ucblib -lucb -L/usr/lib -lsocket -lnsl
 
 ## Linux
-CFLAGS= -Wall -g ${MCAST_INCLUDE} ${SNMPDEF} ${RSRRDEF} ${MISCDEFS} -D__BSD_SOURCE -DRAW_INPUT_IS_RAW -DRAW_OUTPUT_IS_RAW -DIOCTL_OK_ON_RAW_SOCKET -DLinux -DPIM
+CFLAGS= -Wall -g  -Iinclude/linux ${MCAST_INCLUDE} ${SNMPDEF} ${RSRRDEF} ${MISCDEFS} -D__BSD_SOURCE -DRAW_INPUT_IS_RAW -DRAW_OUTPUT_IS_RAW -DIOCTL_OK_ON_RAW_SOCKET -DLinux -DPIM
 
 
 LIBS=		${SNMPLIBDIR} ${SNMPLIBS} ${LIB2}

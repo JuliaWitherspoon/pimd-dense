@@ -19,7 +19,7 @@
  *  ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.  THIS SOFTWARE IS
  *  PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES,
  *  INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
- *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND 
+ *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
  *  NON-INFRINGEMENT.
  *
  *  IN NO EVENT SHALL USC, OR ANY OTHER CONTRIBUTOR BE LIABLE FOR ANY
@@ -31,7 +31,7 @@
  *  noted when applicable.
  */
 /*
- *  Questions concerning this software should be directed to 
+ *  Questions concerning this software should be directed to
  *  Pavlin Ivanov Radoslavov (pavlin@catarina.usc.edu)
  *
  *  $Id: routesock.c,v 1.2 1998/05/29 20:08:57 kurtw Exp $
@@ -60,9 +60,9 @@
 
 #ifdef HAVE_ROUTING_SOCKETS
 union sockunion {
-    struct  sockaddr sa;
-    struct  sockaddr_in sin;
-    struct  sockaddr_dl sdl;
+	struct  sockaddr sa;
+	struct  sockaddr_in sin;
+	struct  sockaddr_dl sdl;
 } so_dst, so_ifp;
 typedef union sockunion *sup;
 int routing_socket;
@@ -74,17 +74,17 @@ u_long rtm_inits;
  * Local functions definitions.
  */
 static int getmsg __P((register struct rt_msghdr *, int,
-		       struct rpfctl *rpfinfo));
+					   struct rpfctl *rpfinfo));
 
 /*
  * TODO: check again!
  */
 #ifdef IRIX
 #define ROUNDUP(a) ((a) > 0 ? (1 + (((a) - 1) | (sizeof(__uint64_t) - 1))) \
-		    : sizeof(__uint64_t))
+					: sizeof(__uint64_t))
 #else
 #define ROUNDUP(a) ((a) > 0 ? (1 + (((a) - 1) | (sizeof(long) - 1))) \
-		    : sizeof(long))
+					: sizeof(long))
 #endif /* IRIX */
 
 #ifdef HAVE_SA_LEN
@@ -97,229 +97,229 @@ static int getmsg __P((register struct rt_msghdr *, int,
 int
 init_routesock()
 {
-    int off;
-    
-    pid = getpid();
-    routing_socket = socket(PF_ROUTE, SOCK_RAW, 0);
-    if (routing_socket < 0) {
-	log(LOG_ERR, 0, "\nRouting socket error");
-	return -1;
-    }
-    if (fcntl(routing_socket, F_SETFL, O_NONBLOCK) == -1){
-	log(LOG_ERR, 0, "\n Routing socket error");
-	return -1;
-    }
-    if (setsockopt(routing_socket, SOL_SOCKET,
-		   SO_USELOOPBACK, (char *)&off,
-		   sizeof(off)) < 0){
-	log(LOG_ERR, 0 , "\n setsockopt(SO_USELOOPBACK,0)");
-	return -1;
-    }	
-    return 0;
+	int off;
+
+	pid = getpid();
+	routing_socket = socket(PF_ROUTE, SOCK_RAW, 0);
+	if (routing_socket < 0) {
+		log(LOG_ERR, 0, "\nRouting socket error");
+		return -1;
+	}
+	if (fcntl(routing_socket, F_SETFL, O_NONBLOCK) == -1) {
+		log(LOG_ERR, 0, "\n Routing socket error");
+		return -1;
+	}
+	if (setsockopt(routing_socket, SOL_SOCKET,
+				   SO_USELOOPBACK, (char *)&off,
+				   sizeof(off)) < 0) {
+		log(LOG_ERR, 0, "\n setsockopt(SO_USELOOPBACK,0)");
+		return -1;
+	}
+	return 0;
 }
 
 
 struct {
-    struct  rt_msghdr m_rtm;
-    char    m_space[512];
+	struct  rt_msghdr m_rtm;
+	char    m_space[512];
 } m_rtmsg;
 
 
 /* get the rpf neighbor info */
 int
 k_req_incoming(source, rpfp)
-    u_int32 source;
-    struct rpfctl *rpfp;
+u_int32 source;
+struct rpfctl *rpfp;
 {
-    int flags = RTF_STATIC; 
-    register sup su;
-    static int seq;
-    int rlen;
-    register char *cp = m_rtmsg.m_space;
-    register int l;
-    struct rpfctl rpfinfo;
-	
-/* TODO: a hack!!!! */
+	int flags = RTF_STATIC;
+	register sup su;
+	static int seq;
+	int rlen;
+	register char *cp = m_rtmsg.m_space;
+	register int l;
+	struct rpfctl rpfinfo;
+
+	/* TODO: a hack!!!! */
 #ifdef HAVE_SA_LEN
 #define NEXTADDR(w, u) \
-    if (rtm_addrs & (w)) { \
-	l = ROUNDUP(u.sa.sa_len); bcopy((char *)&(u), cp, l); cp += l;\
-    }
+	if (rtm_addrs & (w)) { \
+		l = ROUNDUP(u.sa.sa_len); bcopy((char *)&(u), cp, l); cp += l;\
+	}
 #else
 #define NEXTADDR(w, u) \
-    if (rtm_addrs & (w)) { \
-	l = ROUNDUP(4); bcopy((char *)&(u), cp, l); cp += l;\
-    }
+	if (rtm_addrs & (w)) { \
+		l = ROUNDUP(4); bcopy((char *)&(u), cp, l); cp += l;\
+	}
 #endif /* HAVE_SA_LEN */
 
-    /* initialize */
-    rpfp->rpfneighbor.s_addr = INADDR_ANY_N;
-    rpfp->source.s_addr = source;
-    
-    /* check if local address or directly connected before calling the
-     * routing socket
-     */
-    if ((rpfp->iif = find_vif_direct_local(source)) != NO_VIF) {
-	rpfp->rpfneighbor.s_addr = source;
-	return(TRUE);
-    }       
+	/* initialize */
+	rpfp->rpfneighbor.s_addr = INADDR_ANY_N;
+	rpfp->source.s_addr = source;
 
-    /* prepare the routing socket params */
-    rtm_addrs |= RTA_DST;
-    rtm_addrs |= RTA_IFP;
-    su = &so_dst;
-    su->sin.sin_family = AF_INET;
+	/* check if local address or directly connected before calling the
+	 * routing socket
+	 */
+	if ((rpfp->iif = find_vif_direct_local(source)) != NO_VIF) {
+		rpfp->rpfneighbor.s_addr = source;
+		return (TRUE);
+	}
+
+	/* prepare the routing socket params */
+	rtm_addrs |= RTA_DST;
+	rtm_addrs |= RTA_IFP;
+	su = &so_dst;
+	su->sin.sin_family = AF_INET;
 #ifdef HAVE_SA_LEN
-    su->sin.sin_len = sizeof(struct sockaddr_in);
+	su->sin.sin_len = sizeof(struct sockaddr_in);
 #endif
-    su->sin.sin_addr.s_addr = source;
-    if (inet_lnaof(su->sin.sin_addr) == INADDR_ANY) {
-	IF_DEBUG(DEBUG_RPF)
-	    log(LOG_DEBUG, 0, "k_req_incoming: Invalid source %s",
-		inet_fmt(source,s1));
-	return(FALSE); 
-    }
-    so_ifp.sa.sa_family = AF_LINK;
+	su->sin.sin_addr.s_addr = source;
+	if (inet_lnaof(su->sin.sin_addr) == INADDR_ANY) {
+		IF_DEBUG(DEBUG_RPF)
+		log(LOG_DEBUG, 0, "k_req_incoming: Invalid source %s",
+			inet_fmt(source, s1));
+		return (FALSE);
+	}
+	so_ifp.sa.sa_family = AF_LINK;
 #ifdef HAVE_SA_LEN
-    so_ifp.sa.sa_len = sizeof(struct sockaddr_dl);
+	so_ifp.sa.sa_len = sizeof(struct sockaddr_dl);
 #endif
-    flags |= RTF_UP;
-    flags |= RTF_HOST;
-    flags |= RTF_GATEWAY;
-    errno = 0;
-    bzero((char *)&m_rtmsg, sizeof(m_rtmsg));
+	flags |= RTF_UP;
+	flags |= RTF_HOST;
+	flags |= RTF_GATEWAY;
+	errno = 0;
+	bzero((char *)&m_rtmsg, sizeof(m_rtmsg));
 
 #define rtm m_rtmsg.m_rtm
-    rtm.rtm_type	= RTM_GET;
-    rtm.rtm_flags	= flags;
-    rtm.rtm_version	= RTM_VERSION;
-    rtm.rtm_seq 	= ++seq;
-    rtm.rtm_addrs	= rtm_addrs;
-    rtm.rtm_rmx 	= rt_metrics;
-    rtm.rtm_inits	= rtm_inits;
+	rtm.rtm_type	= RTM_GET;
+	rtm.rtm_flags	= flags;
+	rtm.rtm_version	= RTM_VERSION;
+	rtm.rtm_seq 	= ++seq;
+	rtm.rtm_addrs	= rtm_addrs;
+	rtm.rtm_rmx 	= rt_metrics;
+	rtm.rtm_inits	= rtm_inits;
 
-    NEXTADDR(RTA_DST, so_dst);
-    NEXTADDR(RTA_IFP, so_ifp);
-    rtm.rtm_msglen = l = cp - (char *)&m_rtmsg;
-    
-    if ((rlen = write(routing_socket, (char *)&m_rtmsg, l)) < 0) {
-	IF_DEBUG(DEBUG_RPF | DEBUG_KERN) {
-	    if (errno == ESRCH)
-		log(LOG_DEBUG, 0,
-		    "Writing to routing socket: no such route\n");
-	    else
-		log(LOG_DEBUG, 0, "Error writing to routing socket");
+	NEXTADDR(RTA_DST, so_dst);
+	NEXTADDR(RTA_IFP, so_ifp);
+	rtm.rtm_msglen = l = cp - (char *)&m_rtmsg;
+
+	if ((rlen = write(routing_socket, (char *)&m_rtmsg, l)) < 0) {
+		IF_DEBUG(DEBUG_RPF | DEBUG_KERN) {
+			if (errno == ESRCH)
+				log(LOG_DEBUG, 0,
+					"Writing to routing socket: no such route\n");
+			else
+				log(LOG_DEBUG, 0, "Error writing to routing socket");
+		}
+		return (FALSE);
 	}
-	return(FALSE); 
-    }
-    
-    do {
-	l = read(routing_socket, (char *)&m_rtmsg, sizeof(m_rtmsg));
-    } while (l > 0 && (rtm.rtm_seq != seq || rtm.rtm_pid != pid));
-    
-    if (l < 0) {
-	IF_DEBUG(DEBUG_RPF | DEBUG_KERN)
-	    log(LOG_DEBUG, 0, "Read from routing socket failed");
-	return(FALSE);
-    }
-    
-    if (getmsg(&rtm, l, &rpfinfo)){
-	rpfp->rpfneighbor.s_addr = rpfinfo.rpfneighbor.s_addr;
-	rpfp->iif = rpfinfo.iif;
-    }
+
+	do {
+		l = read(routing_socket, (char *)&m_rtmsg, sizeof(m_rtmsg));
+	} while (l > 0 && (rtm.rtm_seq != seq || rtm.rtm_pid != pid));
+
+	if (l < 0) {
+		IF_DEBUG(DEBUG_RPF | DEBUG_KERN)
+		log(LOG_DEBUG, 0, "Read from routing socket failed");
+		return (FALSE);
+	}
+
+	if (getmsg(&rtm, l, &rpfinfo)) {
+		rpfp->rpfneighbor.s_addr = rpfinfo.rpfneighbor.s_addr;
+		rpfp->iif = rpfinfo.iif;
+	}
 #undef rtm
-    return (TRUE);
+	return (TRUE);
 }
 
 
 /*
  * Returns TRUE on success, FALSE otherwise. rpfinfo contains the result.
  */
-int 
+int
 getmsg(rtm, msglen, rpfinfop)
-    register struct rt_msghdr *rtm;
-    int msglen;
-    struct rpfctl *rpfinfop;
+register struct rt_msghdr *rtm;
+int msglen;
+struct rpfctl *rpfinfop;
 {
-    struct sockaddr *dst = NULL, *gate = NULL, *mask = NULL;
-    struct sockaddr_dl *ifp = NULL;
-    register struct sockaddr *sa;
-    register char *cp;
-    register int i;
-    struct in_addr in;
-    vifi_t vifi;
-    struct uvif *v;
-    
-    if (rpfinfop == (struct rpfctl *)NULL)
-	return(FALSE);
-    
-    in = ((struct sockaddr_in *)&so_dst)->sin_addr;
-    IF_DEBUG(DEBUG_RPF)
+	struct sockaddr *dst = NULL, *gate = NULL, *mask = NULL;
+	struct sockaddr_dl *ifp = NULL;
+	register struct sockaddr *sa;
+	register char *cp;
+	register int i;
+	struct in_addr in;
+	vifi_t vifi;
+	struct uvif *v;
+
+	if (rpfinfop == (struct rpfctl *)NULL)
+		return (FALSE);
+
+	in = ((struct sockaddr_in *)&so_dst)->sin_addr;
+	IF_DEBUG(DEBUG_RPF)
 	log(LOG_DEBUG, 0, "route to: %s", inet_fmt(in.s_addr, s1));
-    cp = ((char *)(rtm + 1));
-    if (rtm->rtm_addrs)
-	for (i = 1; i; i <<= 1)
-	    if (i & rtm->rtm_addrs) {
-		sa = (struct sockaddr *)cp;
-		switch (i) {
-		case RTA_DST:
-		    dst = sa;
-		    break;
-		case RTA_GATEWAY:
-		    gate = sa;
-		    break;
-		case RTA_NETMASK:
-		    mask = sa;
-		    break;
-		case RTA_IFP:
-		    if (sa->sa_family == AF_LINK &&
-			((struct sockaddr_dl *)sa)->sdl_nlen)
-			ifp = (struct sockaddr_dl *)sa;
-		    break;
-		}
-		ADVANCE(cp, sa);
-	    }
-    
-    if (!ifp){ 	/* No incoming interface */
+	cp = ((char *)(rtm + 1));
+	if (rtm->rtm_addrs)
+		for (i = 1; i; i <<= 1)
+			if (i & rtm->rtm_addrs) {
+				sa = (struct sockaddr *)cp;
+				switch (i) {
+				case RTA_DST:
+					dst = sa;
+					break;
+				case RTA_GATEWAY:
+					gate = sa;
+					break;
+				case RTA_NETMASK:
+					mask = sa;
+					break;
+				case RTA_IFP:
+					if (sa->sa_family == AF_LINK &&
+						((struct sockaddr_dl *)sa)->sdl_nlen)
+						ifp = (struct sockaddr_dl *)sa;
+					break;
+				}
+				ADVANCE(cp, sa);
+			}
+
+	if (!ifp) { 	/* No incoming interface */
+		IF_DEBUG(DEBUG_RPF)
+		log(LOG_DEBUG, 0,
+			"No incoming interface for destination %s",
+			inet_fmt(in.s_addr, s1));
+		return (FALSE);
+	}
+	if (dst && mask)
+		mask->sa_family = dst->sa_family;
+	if (dst) {
+		in = ((struct sockaddr_in *)dst)->sin_addr;
+		IF_DEBUG(DEBUG_RPF)
+		log(LOG_DEBUG, 0, " destination is: %s",
+			inet_fmt(in.s_addr, s1));
+	}
+	if (gate && rtm->rtm_flags & RTF_GATEWAY) {
+		in = ((struct sockaddr_in *)gate)->sin_addr;
+		IF_DEBUG(DEBUG_RPF)
+		log(LOG_DEBUG, 0, " gateway is: %s",
+			inet_fmt(in.s_addr, s1));
+		rpfinfop->rpfneighbor = in;
+	}
+
+	for (vifi = 0, v = uvifs; vifi < numvifs; ++vifi, ++v)
+		/* get the number of the interface by matching the name */
+		if (!(strncmp(v->uv_name, ifp->sdl_data, ifp->sdl_nlen)))
+			break;
+
 	IF_DEBUG(DEBUG_RPF)
-	    log(LOG_DEBUG, 0,
-		"No incoming interface for destination %s",
-		inet_fmt(in.s_addr, s1));
-	return(FALSE);
-    }
-    if (dst && mask)
-	mask->sa_family = dst->sa_family;
-    if (dst) {
-	in = ((struct sockaddr_in *)dst)->sin_addr;
-	IF_DEBUG(DEBUG_RPF)
-	    log(LOG_DEBUG, 0, " destination is: %s",
-		inet_fmt(in.s_addr, s1));
-    }
-    if (gate && rtm->rtm_flags & RTF_GATEWAY) {
-	in = ((struct sockaddr_in *)gate)->sin_addr;
-	IF_DEBUG(DEBUG_RPF)
-	    log(LOG_DEBUG, 0, " gateway is: %s",
-		inet_fmt(in.s_addr, s1));
-	rpfinfop->rpfneighbor = in;
-    }
-    
-    for (vifi = 0, v = uvifs; vifi < numvifs; ++vifi, ++v) 
-	/* get the number of the interface by matching the name */
-	if (!(strncmp(v->uv_name,ifp->sdl_data,ifp->sdl_nlen)))
-	    break;
-    
-    IF_DEBUG(DEBUG_RPF)
 	log(LOG_DEBUG, 0, " iif is %d", vifi);
-    
-    rpfinfop->iif = vifi;
-    
-    if (vifi >= numvifs){
-	IF_DEBUG(DEBUG_RPF)
-	    log(LOG_DEBUG, 0, "Invalid incoming interface for destination %s, because of invalid virtual interface", inet_fmt(in.s_addr, s1));
-	return(FALSE);/* invalid iif */
-    }
-    
-    return(TRUE);
+
+	rpfinfop->iif = vifi;
+
+	if (vifi >= numvifs) {
+		IF_DEBUG(DEBUG_RPF)
+		log(LOG_DEBUG, 0, "Invalid incoming interface for destination %s, because of invalid virtual interface", inet_fmt(in.s_addr, s1));
+		return (FALSE); /* invalid iif */
+	}
+
+	return (TRUE);
 }
 
 
@@ -333,19 +333,19 @@ getmsg(rtm, msglen, rpfinfop)
 /* TODO: check whether next hop router address is in network or host order */
 int
 k_req_incoming(source, rpfcinfo)
-    u_int32 source;
-    struct rpfctl *rpfcinfo;
+u_int32 source;
+struct rpfctl *rpfcinfo;
 {
-    rpfcinfo->source.s_addr = source;
-    rpfcinfo->iif = NO_VIF;     /* just initialized, will be */
-    /* changed in kernel */
-    rpfcinfo->rpfneighbor.s_addr = INADDR_ANY;   /* initialized */
-    
-    if (ioctl(udp_socket, SIOCGETRPF, (char *) rpfcinfo) < 0){
-	log(LOG_ERR, errno, "ioctl SIOCGETRPF k_req_incoming");
-	return(FALSE);
-    }
-    return (TRUE);
+	rpfcinfo->source.s_addr = source;
+	rpfcinfo->iif = NO_VIF;     /* just initialized, will be */
+	/* changed in kernel */
+	rpfcinfo->rpfneighbor.s_addr = INADDR_ANY;   /* initialized */
+
+	if (ioctl(udp_socket, SIOCGETRPF, (char *) rpfcinfo) < 0) {
+		log(LOG_ERR, errno, "ioctl SIOCGETRPF k_req_incoming");
+		return (FALSE);
+	}
+	return (TRUE);
 }
 #endif	/* HAVE_ROUTING_SOCKETS */
 

@@ -19,7 +19,7 @@
  *  ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.  THIS SOFTWARE IS
  *  PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES,
  *  INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
- *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND 
+ *  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND
  *  NON-INFRINGEMENT.
  *
  *  IN NO EVENT SHALL USC, OR ANY OTHER CONTRIBUTOR BE LIABLE FOR ANY
@@ -31,7 +31,7 @@
  *  noted when applicable.
  */
 /*
- *  Questions concerning this software should be directed to 
+ *  Questions concerning this software should be directed to
  *  Pavlin Ivanov Radoslavov (pavlin@catarina.usc.edu)
  *
  *  $Id: dvmrp_proto.c,v 1.1.1.1 1998/05/11 17:39:34 kurtw Exp $
@@ -46,13 +46,13 @@
  */
 void
 dvmrp_accept_probe(src, dst, p, datalen, level)
-    u_int32 src;
-    u_int32 dst;
-    char *p;
-    int datalen;
-    u_int32 level;
+u_int32 src;
+u_int32 dst;
+char *p;
+int datalen;
+u_int32 level;
 {
-    return;
+	return;
 }
 
 
@@ -62,25 +62,25 @@ dvmrp_accept_probe(src, dst, p, datalen, level)
  */
 void
 dvmrp_accept_report(src, dst, p, datalen, level)
-    u_int32 src;
-    u_int32 dst; 
-    register char *p;
-    register int datalen;
-    u_int32 level;
+u_int32 src;
+u_int32 dst;
+register char *p;
+register int datalen;
+u_int32 level;
 {
-    return;
+	return;
 }
 
 
 /* TODO */
 void
 dvmrp_accept_info_request(src, dst, p, datalen)
-    u_int32 src;
-    u_int32 dst;
-    u_char *p;
-    int datalen;
+u_int32 src;
+u_int32 dst;
+u_char *p;
+int datalen;
 {
-    return;
+	return;
 }
 
 
@@ -89,14 +89,14 @@ dvmrp_accept_info_request(src, dst, p, datalen)
  */
 void
 dvmrp_accept_info_reply(src, dst, p, datalen)
-    u_int32 src;
-    u_int32 dst;
-    u_char *p;
-    int datalen;
+u_int32 src;
+u_int32 dst;
+u_char *p;
+int datalen;
 {
-    IF_DEBUG(DEBUG_PKT)
+	IF_DEBUG(DEBUG_PKT)
 	log(LOG_DEBUG, 0, "ignoring spurious DVMRP info reply from %s to %s",
-	    inet_fmt(src, s1), inet_fmt(dst, s2));
+		inet_fmt(src, s1), inet_fmt(dst, s2));
 }
 
 
@@ -105,14 +105,14 @@ dvmrp_accept_info_reply(src, dst, p, datalen)
  */
 void
 dvmrp_accept_neighbors(src, dst, p, datalen, level)
-    u_int32 src;
-    u_int32 dst;
-    u_char *p;
-    int datalen;
-    u_int32 level;
+u_int32 src;
+u_int32 dst;
+u_char *p;
+int datalen;
+u_int32 level;
 {
-    log(LOG_INFO, 0, "ignoring spurious DVMRP neighbor list from %s to %s",
-        inet_fmt(src, s1), inet_fmt(dst, s2));
+	log(LOG_INFO, 0, "ignoring spurious DVMRP neighbor list from %s to %s",
+		inet_fmt(src, s1), inet_fmt(dst, s2));
 }
 
 
@@ -121,16 +121,16 @@ dvmrp_accept_neighbors(src, dst, p, datalen, level)
  */
 void
 dvmrp_accept_neighbors2(src, dst, p, datalen, level)
-    u_int32 src;
-    u_int32 dst;
-    u_char *p;
-    int datalen;
-    u_int32 level;
+u_int32 src;
+u_int32 dst;
+u_char *p;
+int datalen;
+u_int32 level;
 {
-    IF_DEBUG(DEBUG_PKT)
+	IF_DEBUG(DEBUG_PKT)
 	log(LOG_DEBUG, 0,
-	    "ignoring spurious DVMRP neighbor list2 from %s to %s",
-	    inet_fmt(src, s1), inet_fmt(dst, s2));
+		"ignoring spurious DVMRP neighbor list2 from %s to %s",
+		inet_fmt(src, s1), inet_fmt(dst, s2));
 }
 
 
@@ -147,23 +147,23 @@ dvmrp_accept_neighbors2(src, dst, p, datalen, level)
  */
 void
 dvmrp_accept_prune(src, dst, p, datalen)
-    u_int32 src;
-    u_int32 dst;
-    char *p;
-    int datalen;
+u_int32 src;
+u_int32 dst;
+char *p;
+int datalen;
 {
-    return;
+	return;
 }
 
 
 /* TODO */
 /* determine the multicast group and src
- * 
- * if it does, then determine if a prune was sent 
+ *
+ * if it does, then determine if a prune was sent
  * upstream.
  * if prune sent upstream, send graft upstream and send
  * ack downstream.
- * 
+ *
  * if no prune sent upstream, change the forwarding bit
  * for this interface and send ack downstream.
  *
@@ -171,30 +171,30 @@ dvmrp_accept_prune(src, dst, p, datalen)
  */
 void
 dvmrp_accept_graft(src, dst, p, datalen)
-    u_int32     src;
-    u_int32     dst;
-    char        *p;
-    int         datalen;
+u_int32     src;
+u_int32     dst;
+char        *p;
+int         datalen;
 {
-    return;
+	return;
 }
 
 
 /* TODO */
 /*
- * find out which group is involved first of all 
+ * find out which group is involved first of all
  * then determine if a graft was sent.
  * if no graft sent, ignore the message
- * if graft was sent and the ack is from the right 
- * source, remove the graft timer so that we don't 
+ * if graft was sent and the ack is from the right
+ * source, remove the graft timer so that we don't
  * have send a graft again
  */
 void
 dvmrp_accept_g_ack(src, dst, p, datalen)
-    u_int32     src;
-    u_int32     dst;
-    char        *p;
-    int         datalen;
+u_int32     src;
+u_int32     dst;
+char        *p;
+int         datalen;
 {
-    return;
+	return;
 }
