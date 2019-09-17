@@ -12,13 +12,13 @@
  */
 
 struct pimstat {
-    u_int	pim_rcv_total;		/* total PIM messages received	*/
-    u_int	pim_rcv_tooshort;	/* received with too few bytes	*/
-    u_int	pim_rcv_badsum;		/* received with bad checksum	*/
-    u_int	pim_rcv_badversion;	/* received bad PIM version	*/
-    u_int	pim_rcv_registers;	/* received registers		*/
-    u_int	pim_rcv_badregisters;	/* received invalid registers	*/
-    u_int	pim_snd_registers;	/* sent registers		*/
+	u_int	pim_rcv_total;		/* total PIM messages received	*/
+	u_int	pim_rcv_tooshort;	/* received with too few bytes	*/
+	u_int	pim_rcv_badsum;		/* received with bad checksum	*/
+	u_int	pim_rcv_badversion;	/* received bad PIM version	*/
+	u_int	pim_rcv_registers;	/* received registers		*/
+	u_int	pim_rcv_badregisters;	/* received invalid registers	*/
+	u_int	pim_snd_registers;	/* sent registers		*/
 };
 
 #if (defined(KERNEL)) || (defined(_KERNEL))
@@ -46,9 +46,9 @@ void pim_input __P((struct mbuf *, int));
 #define PIMCTL_MAXID		2
 
 #define PIMCTL_NAMES { \
-	{ 0, 0 }, \
-	{ "stats", CTLTYPE_STRUCT }, \
-}
+		{ 0, 0 }, \
+		{ "stats", CTLTYPE_STRUCT }, \
+	}
 #endif /* FreeBSD || NetBSD */
 
 #endif /* _NETINET_PIM_VAR_H_ */

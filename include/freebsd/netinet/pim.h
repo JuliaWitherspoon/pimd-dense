@@ -17,11 +17,11 @@
 #define PIM_VERSION	2
 struct pim {
 #if BYTE_ORDER == LITTLE_ENDIAN
-    u_char	pim_type:4,		/* type of PIM message            */
-		pim_vers:4;		/* PIM version                    */
+	u_char	pim_type: 4,		/* type of PIM message            */
+			pim_vers: 4;		/* PIM version                    */
 #else /* BYTE_ORDER == BIG_ENDIAN */
-	u_char	pim_vers:4,		/* PIM version                    */
-		pim_type:4;		/* type of PIM message            */
+	u_char	pim_vers: 4,		/* PIM version                    */
+			pim_type: 4;		/* type of PIM message            */
 #endif /* BYTE_ORDER */
 	u_char  reserved;		/* Reserved                       */
 	u_short	pim_cksum;		/* IP-style checksum              */

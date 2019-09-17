@@ -28,73 +28,70 @@
 __BEGIN_DECLS
 
 /* Standard well-defined IP protocols.  */
-enum
-  {
-    IPPROTO_IP = 0,	 /* Dummy protocol for TCP.  */
-    IPPROTO_ICMP = 1,	 /* Internet Control Message Protocol.  */
-    IPPROTO_IGMP = 2,	 /* Internet Group Management Protocol. */
-    IPPROTO_IPIP = 4,	 /* IPIP tunnels (older KA9Q tunnels use 94).  */
-    IPPROTO_TCP = 6,	 /* Transmission Control Protocol.  */
-    IPPROTO_EGP = 8,	 /* Exterior Gateway Protocol.  */
-    IPPROTO_PUP = 12,	 /* PUP protocol.  */
-    IPPROTO_UDP = 17,	 /* User Datagram Protocol.  */
-    IPPROTO_IDP = 22,	 /* XNS IDP protocol.  */
-    IPPROTO_IPV6 = 41,	 /* IPv6-in-IPv4 tunnelling.  */
-    IPPROTO_RSVP = 46,	 /* RSVP Protocol.  */
-    IPPROTO_GRE = 47,	 /* Cisco GRE tunnels (rfc 1701,1702).  */
-    IPPROTO_ICMPV6 = 58, /* ICMPv6.  */
-    IPPROTO_PIM = 103,	 /* Protocol Independent Multicast.  */
+enum {
+	IPPROTO_IP = 0,	 /* Dummy protocol for TCP.  */
+	IPPROTO_ICMP = 1,	 /* Internet Control Message Protocol.  */
+	IPPROTO_IGMP = 2,	 /* Internet Group Management Protocol. */
+	IPPROTO_IPIP = 4,	 /* IPIP tunnels (older KA9Q tunnels use 94).  */
+	IPPROTO_TCP = 6,	 /* Transmission Control Protocol.  */
+	IPPROTO_EGP = 8,	 /* Exterior Gateway Protocol.  */
+	IPPROTO_PUP = 12,	 /* PUP protocol.  */
+	IPPROTO_UDP = 17,	 /* User Datagram Protocol.  */
+	IPPROTO_IDP = 22,	 /* XNS IDP protocol.  */
+	IPPROTO_IPV6 = 41,	 /* IPv6-in-IPv4 tunnelling.  */
+	IPPROTO_RSVP = 46,	 /* RSVP Protocol.  */
+	IPPROTO_GRE = 47,	 /* Cisco GRE tunnels (rfc 1701,1702).  */
+	IPPROTO_ICMPV6 = 58, /* ICMPv6.  */
+	IPPROTO_PIM = 103,	 /* Protocol Independent Multicast.  */
 
-    IPPROTO_RAW = 255,	 /* Raw IP packets.  */
-    IPPROTO_MAX
-      };
+	IPPROTO_RAW = 255,	 /* Raw IP packets.  */
+	IPPROTO_MAX
+};
 
 /* Standard well-known ports.  */
-enum
-  {
-    IPPORT_ECHO = 7,		/* Echo service.  */
-    IPPORT_DISCARD = 9,		/* Discard transmissions service.  */
-    IPPORT_SYSTAT = 11,		/* System status service.  */
-    IPPORT_DAYTIME = 13,	/* Time of day service.  */
-    IPPORT_NETSTAT = 15,	/* Network status service.  */
-    IPPORT_FTP = 21,		/* File Transfer Protocol.  */
-    IPPORT_TELNET = 23,		/* Telnet protocol.  */
-    IPPORT_SMTP = 25,		/* Simple Mail Transfer Protocol.  */
-    IPPORT_TIMESERVER = 37,	/* Timeserver service.  */
-    IPPORT_NAMESERVER = 42,	/* Domain Name Service.  */
-    IPPORT_WHOIS = 43,		/* Internet Whois service.  */
-    IPPORT_MTP = 57,
+enum {
+	IPPORT_ECHO = 7,		/* Echo service.  */
+	IPPORT_DISCARD = 9,		/* Discard transmissions service.  */
+	IPPORT_SYSTAT = 11,		/* System status service.  */
+	IPPORT_DAYTIME = 13,	/* Time of day service.  */
+	IPPORT_NETSTAT = 15,	/* Network status service.  */
+	IPPORT_FTP = 21,		/* File Transfer Protocol.  */
+	IPPORT_TELNET = 23,		/* Telnet protocol.  */
+	IPPORT_SMTP = 25,		/* Simple Mail Transfer Protocol.  */
+	IPPORT_TIMESERVER = 37,	/* Timeserver service.  */
+	IPPORT_NAMESERVER = 42,	/* Domain Name Service.  */
+	IPPORT_WHOIS = 43,		/* Internet Whois service.  */
+	IPPORT_MTP = 57,
 
-    IPPORT_TFTP = 69,		/* Trivial File Transfer Protocol.  */
-    IPPORT_RJE = 77,
-    IPPORT_FINGER = 79,		/* Finger service.  */
-    IPPORT_TTYLINK = 87,
-    IPPORT_SUPDUP = 95,		/* SUPDUP protocol.  */
+	IPPORT_TFTP = 69,		/* Trivial File Transfer Protocol.  */
+	IPPORT_RJE = 77,
+	IPPORT_FINGER = 79,		/* Finger service.  */
+	IPPORT_TTYLINK = 87,
+	IPPORT_SUPDUP = 95,		/* SUPDUP protocol.  */
 
 
-    IPPORT_EXECSERVER = 512,	/* execd service.  */
-    IPPORT_LOGINSERVER = 513,	/* rlogind service.  */
-    IPPORT_CMDSERVER = 514,
-    IPPORT_EFSSERVER = 520,
+	IPPORT_EXECSERVER = 512,	/* execd service.  */
+	IPPORT_LOGINSERVER = 513,	/* rlogind service.  */
+	IPPORT_CMDSERVER = 514,
+	IPPORT_EFSSERVER = 520,
 
-    /* UDP ports.  */
-    IPPORT_BIFFUDP = 512,
-    IPPORT_WHOSERVER = 513,
-    IPPORT_ROUTESERVER = 520,
+	/* UDP ports.  */
+	IPPORT_BIFFUDP = 512,
+	IPPORT_WHOSERVER = 513,
+	IPPORT_ROUTESERVER = 520,
 
-    /* Ports less than this value are reserved for privileged processes.  */
-    IPPORT_RESERVED = 1024,
+	/* Ports less than this value are reserved for privileged processes.  */
+	IPPORT_RESERVED = 1024,
 
-    /* Ports greater this value are reserved for (non-privileged) servers.  */
-    IPPORT_USERRESERVED = 5000
-  };
+	/* Ports greater this value are reserved for (non-privileged) servers.  */
+	IPPORT_USERRESERVED = 5000
+};
 
 
 /* Internet address.  */
-struct in_addr
-  {
-    unsigned int s_addr;
-  };
+struct in_addr {
+	unsigned int s_addr;
+};
 
 
 /* Definitions of the bits in an Internet address integer.
@@ -151,18 +148,17 @@ struct in_addr
 
 
 /* Structure describing an Internet socket address.  */
-struct sockaddr_in
-  {
-    __SOCKADDR_COMMON (sin_);
-    unsigned short int sin_port;	/* Port number.  */
-    struct in_addr sin_addr;		/* Internet address.  */
+struct sockaddr_in {
+	__SOCKADDR_COMMON(sin_);
+	unsigned short int sin_port;	/* Port number.  */
+	struct in_addr sin_addr;		/* Internet address.  */
 
-    /* Pad to size of `struct sockaddr'.  */
-    unsigned char sin_zero[sizeof(struct sockaddr) -
-			   __SOCKADDR_COMMON_SIZE -
-			   sizeof(unsigned short int) -
-			   sizeof(struct in_addr)];
-  };
+	/* Pad to size of `struct sockaddr'.  */
+	unsigned char sin_zero[sizeof(struct sockaddr) -
+										 __SOCKADDR_COMMON_SIZE -
+										 sizeof(unsigned short int) -
+										 sizeof(struct in_addr)];
+};
 
 
 /* Options for use with `getsockopt' and `setsockopt' at the IP level.
@@ -202,18 +198,16 @@ struct sockaddr_in
 /* Structure used to describe IP options for IP_OPTIONS. The `ip_dst'
    field is used for the first-hop gateway when using a source route
    (this gets put into the header proper).  */
-struct ip_opts
-  {
-    struct in_addr ip_dst;	/* First hop; zero without source route.  */
-    char ip_opts[40];		/* Actually variable in size.  */
-  };
+struct ip_opts {
+	struct in_addr ip_dst;	/* First hop; zero without source route.  */
+	char ip_opts[40];		/* Actually variable in size.  */
+};
 
 /* Structure used for IP_ADD_MEMBERSHIP and IP_DROP_MEMBERSHIP. */
-struct ip_mreq
-  {
-    struct in_addr imr_multiaddr;	/* IP multicast address of group */
-    struct in_addr imr_interface;	/* local IP address of interface */
-  };
+struct ip_mreq {
+	struct in_addr imr_multiaddr;	/* IP multicast address of group */
+	struct in_addr imr_interface;	/* local IP address of interface */
+};
 
 /* Functions to convert between host and network byte order.
 
@@ -222,10 +216,10 @@ struct ip_mreq
    this was a short-sighted decision since on different systems the types
    may have different representations but the values are always the same.  */
 
-extern u_int32_t ntohl __P ((u_int32_t __netlong));
-extern u_int16_t ntohs __P ((u_int16_t __netshort));
-extern u_int32_t htonl __P ((u_int32_t __hostlong));
-extern u_int16_t htons __P ((u_int16_t __hostshort));
+extern u_int32_t ntohl __P((u_int32_t __netlong));
+extern u_int16_t ntohs __P((u_int16_t __netshort));
+extern u_int32_t htonl __P((u_int32_t __hostlong));
+extern u_int16_t htons __P((u_int16_t __hostshort));
 
 #include <endian.h>
 
@@ -240,7 +234,7 @@ extern u_int16_t htons __P ((u_int16_t __hostshort));
 
 
 /* Bind socket to a priviledged IP port.  */
-extern int bindresvport __P ((int __sockfd, struct sockaddr_in *__sock_in));
+extern int bindresvport __P((int __sockfd, struct sockaddr_in *__sock_in));
 
 __END_DECLS
 

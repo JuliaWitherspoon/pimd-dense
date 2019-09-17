@@ -46,7 +46,7 @@
 #define	SIOCSIFMTU	_IOW('i', 21, struct ifreq)	/* set if_mtu */
 #define	SIOCGIFMTU	_IOWR('i',22, struct ifreq)	/* get if_mtu */
 
-	/* from 4.3BSD */
+/* from 4.3BSD */
 #define	SIOCGIFBRDADDR	_IOWR('i',23, struct ifreq)	/* get broadcast addr */
 #define	SIOCSIFBRDADDR	_IOW('i',24, struct ifreq)	/* set broadcast addr */
 #define	SIOCGIFNETMASK	_IOWR('i',25, struct ifreq)	/* get net addr mask */

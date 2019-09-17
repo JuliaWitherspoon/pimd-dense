@@ -34,20 +34,20 @@ struct igmp {
 #define IGMP_MTRACE		     0x1f  /* mcast traceroute messages     */
 
 #define IGMP_MAX_HOST_REPORT_DELAY   10    /* max delay for response to     */
-					   /*  query (in seconds)           */
+/*  query (in seconds)           */
 
 
 #define IGMP_TIMER_SCALE     10	    /* denotes that the igmp->timer filed */
-				    /* specifies time in 10th of seconds  */
+/* specifies time in 10th of seconds  */
 
 /*
  * States for the IGMPv2 state table
  */
 #define IGMP_DELAYING_MEMBER                     1
 #define IGMP_IDLE_MEMBER                         2
-#define IGMP_LAZY_MEMBER                         3 
-#define IGMP_SLEEPING_MEMBER                     4 
-#define IGMP_AWAKENING_MEMBER                    5 
+#define IGMP_LAZY_MEMBER                         3
+#define IGMP_SLEEPING_MEMBER                     4
+#define IGMP_AWAKENING_MEMBER                    5
 
 /*
  * We must remember whether the querier is an old or a new router.

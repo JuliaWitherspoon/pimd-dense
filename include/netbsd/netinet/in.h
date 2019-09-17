@@ -100,27 +100,27 @@ struct in_addr {
 #endif
 
 #define	IN_CLASSA(i)		(((u_int32_t)(i) & __IPADDR(0x80000000)) == \
-				 __IPADDR(0x00000000))
+							 __IPADDR(0x00000000))
 #define	IN_CLASSA_NET		__IPADDR(0xff000000)
 #define	IN_CLASSA_NSHIFT	24
 #define	IN_CLASSA_HOST		__IPADDR(0x00ffffff)
 #define	IN_CLASSA_MAX		128
 
 #define	IN_CLASSB(i)		(((u_int32_t)(i) & __IPADDR(0xc0000000)) == \
-				 __IPADDR(0x80000000))
+							 __IPADDR(0x80000000))
 #define	IN_CLASSB_NET		__IPADDR(0xffff0000)
 #define	IN_CLASSB_NSHIFT	16
 #define	IN_CLASSB_HOST		__IPADDR(0x0000ffff)
 #define	IN_CLASSB_MAX		65536
 
 #define	IN_CLASSC(i)		(((u_int32_t)(i) & __IPADDR(0xe0000000)) == \
-				 __IPADDR(0xc0000000))
+							 __IPADDR(0xc0000000))
 #define	IN_CLASSC_NET		__IPADDR(0xffffff00)
 #define	IN_CLASSC_NSHIFT	8
 #define	IN_CLASSC_HOST		__IPADDR(0x000000ff)
 
 #define	IN_CLASSD(i)		(((u_int32_t)(i) & __IPADDR(0xf0000000)) == \
-				 __IPADDR(0xe0000000))
+							 __IPADDR(0xe0000000))
 /* These ones aren't really net and host fields, but routing needn't know. */
 #define	IN_CLASSD_NET		__IPADDR(0xf0000000)
 #define	IN_CLASSD_NSHIFT	28
@@ -128,12 +128,12 @@ struct in_addr {
 #define	IN_MULTICAST(i)		IN_CLASSD(i)
 
 #define	IN_EXPERIMENTAL(i)	(((u_int32_t)(i) & __IPADDR(0xf0000000)) == \
-				 __IPADDR(0xf0000000))
+							 __IPADDR(0xf0000000))
 #define	IN_BADCLASS(i)		(((u_int32_t)(i) & __IPADDR(0xf0000000)) == \
-				 __IPADDR(0xf0000000))
+							 __IPADDR(0xf0000000))
 
 #define	IN_LOCAL_GROUP(i)	(((u_int32_t)(i) & __IPADDR(0xffffff00)) == \
-				 __IPADDR(0xe0000000))
+							 __IPADDR(0xe0000000))
 
 #define	INADDR_ANY		__IPADDR(0x00000000)
 #define	INADDR_LOOPBACK		__IPADDR(0x7f000001)
@@ -214,111 +214,111 @@ struct ip_mreq {
 #define	IPPROTO_MAXID	(IPPROTO_IDP + 1)	/* don't list to IPPROTO_MAX */
 
 #define	CTL_IPPROTO_NAMES { \
-	{ "ip", CTLTYPE_NODE }, \
-	{ "icmp", CTLTYPE_NODE }, \
-	{ "igmp", CTLTYPE_NODE }, \
-	{ "ggp", CTLTYPE_NODE }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ "tcp", CTLTYPE_NODE }, \
-	{ 0, 0 }, \
-	{ "egp", CTLTYPE_NODE }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ "pup", CTLTYPE_NODE }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ "udp", CTLTYPE_NODE }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ "idp", CTLTYPE_NODE }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ 0, 0 }, \
-	{ "pim", CTLTYPE_NODE }, \
-}
+		{ "ip", CTLTYPE_NODE }, \
+		{ "icmp", CTLTYPE_NODE }, \
+		{ "igmp", CTLTYPE_NODE }, \
+		{ "ggp", CTLTYPE_NODE }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ "tcp", CTLTYPE_NODE }, \
+		{ 0, 0 }, \
+		{ "egp", CTLTYPE_NODE }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ "pup", CTLTYPE_NODE }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ "udp", CTLTYPE_NODE }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ "idp", CTLTYPE_NODE }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ 0, 0 }, \
+		{ "pim", CTLTYPE_NODE }, \
+	}
 
 /*
  * Names for IP sysctl objects
@@ -337,17 +337,17 @@ struct ip_mreq {
 #define	IPCTL_MAXID	       10
 
 #define	IPCTL_NAMES { \
-	{ 0, 0 }, \
-	{ "forwarding", CTLTYPE_INT }, \
-	{ "redirect", CTLTYPE_INT }, \
-	{ "ttl", CTLTYPE_INT }, \
-	{ "mtu", CTLTYPE_INT }, \
-	{ "forwsrcrt", CTLTYPE_INT }, \
-	{ "directed-broadcast", CTLTYPE_INT }, \
-	{ "allowsrcrt", CTLTYPE_INT }, \
-	{ "subnetsarelocal", CTLTYPE_INT }, \
-	{ "mtudisc", CTLTYPE_INT }, \
-}
+		{ 0, 0 }, \
+		{ "forwarding", CTLTYPE_INT }, \
+		{ "redirect", CTLTYPE_INT }, \
+		{ "ttl", CTLTYPE_INT }, \
+		{ "mtu", CTLTYPE_INT }, \
+		{ "forwsrcrt", CTLTYPE_INT }, \
+		{ "directed-broadcast", CTLTYPE_INT }, \
+		{ "allowsrcrt", CTLTYPE_INT }, \
+		{ "subnetsarelocal", CTLTYPE_INT }, \
+		{ "mtudisc", CTLTYPE_INT }, \
+	}
 
 
 #ifdef _KERNEL

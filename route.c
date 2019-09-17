@@ -61,9 +61,7 @@ u_int32         default_source_preference = DEFAULT_LOCAL_PREF;
 u_int32         default_source_metric     = DEFAULT_LOCAL_METRIC;
 
 /* Return the iif for given address */
-vifi_t
-get_iif(address)
-u_int32 address;
+vifi_t get_iif(u_int32 address)
 {
 	struct rpfctl rpfc;
 
@@ -78,9 +76,7 @@ u_int32 address;
  * but is not PIM router, or if the first hop router is not a PIM router,
  * then return NULL.
  */
-pim_nbr_entry_t *
-find_pim_nbr(source)
-u_int32 source;
+pim_nbr_entry_t *find_pim_nbr(u_int32 source)
 {
 	struct rpfctl rpfc;
 	pim_nbr_entry_t *pim_nbr;
@@ -120,10 +116,7 @@ u_int32 source;
  * then the "upstream" is set to NULL.
  * Note that srctype is a hold-over from the PIM-SM daemon and is unused.
  */
-int
-set_incoming(srcentry_ptr, srctype)
-srcentry_t *srcentry_ptr;
-int srctype;
+int set_incoming(srcentry_t *srcentry_ptr, int srctype)
 {
 	struct rpfctl rpfc;
 	u_int32 source = srcentry_ptr->address;
@@ -150,7 +143,7 @@ int srctype;
 			rpfc.rpfneighbor.s_addr == INADDR_ANY_N) {
 			/* couldn't find a route */
 			IF_DEBUG(DEBUG_PIM_MRT | DEBUG_RPF)
-			log(LOG_DEBUG, 0, "NO ROUTE found for %s",
+			logit(LOG_DEBUG, 0, "NO ROUTE found for %s",
 				inet_fmt(source, s1));
 			return (FALSE);
 		}
@@ -182,7 +175,7 @@ int srctype;
 			 */
 			srcentry_ptr->upstream = n;
 			IF_DEBUG(DEBUG_RPF)
-			log(LOG_DEBUG, 0,
+			logit(LOG_DEBUG, 0,
 				"For src %s, iif is %d, next hop router is %s",
 				inet_fmt(source, s1), srcentry_ptr->incoming,
 				inet_fmt(neighbor_addr, s2));
@@ -191,7 +184,7 @@ int srctype;
 	}
 
 	/* TODO: control the number of messages! */
-	log(LOG_INFO, 0,
+	logit(LOG_INFO, 0,
 		"For src %s, iif is %d, next hop router is %s: NOT A PIM ROUTER",
 		inet_fmt(source, s1), srcentry_ptr->incoming,
 		inet_fmt(neighbor_addr, s2));
@@ -220,11 +213,7 @@ mrtentry_t *mrtentry_ptr;
  * TODO: XXX: currently `source` is not used. Will be used with IGMPv3 where
  * we have source-specific Join/Prune.
  */
-void
-add_leaf(vifi, source, group)
-vifi_t vifi;
-u_int32 source;
-u_int32 group;
+void add_leaf(vifi_t vifi, u_int32 source __attribute__((unused)), u_int32 group)
 {
 	grpentry_t *grpentry_ptr;
 	mrtentry_t *mrtentry_srcs;
@@ -247,7 +236,7 @@ u_int32 group;
 		if (!(VIFM_ISSET(vifi, mrtentry_srcs->leaves))) {
 
 			IF_DEBUG(DEBUG_MRT)
-			log(LOG_DEBUG, 0, "Adding leaf vif %d for src %s group %s",
+			logit(LOG_DEBUG, 0, "Adding leaf vif %d for src %s group %s",
 				vifi,
 				inet_fmt(mrtentry_srcs->source->address, s1),
 				inet_fmt(group, s2));
@@ -273,11 +262,7 @@ u_int32 group;
  * TODO: XXX: currently `source` is not used. To be used with IGMPv3 where
  * we have source-specific joins/prunes.
  */
-void
-delete_leaf(vifi, source, group)
-vifi_t vifi;
-u_int32 source;
-u_int32 group;
+void delete_leaf(vifi_t vifi, u_int32 source __attribute__((unused)), u_int32 group)
 {
 	grpentry_t *grpentry_ptr;
 	mrtentry_t *mrtentry_srcs;
@@ -307,7 +292,7 @@ u_int32 group;
 		if (VIFM_ISSET(vifi, mrtentry_srcs->leaves)) {
 
 			IF_DEBUG(DEBUG_MRT)
-			log(LOG_DEBUG, 0, "Deleting leaf vif %d for src %s, group %s",
+			logit(LOG_DEBUG, 0, "Deleting leaf vif %d for src %s, group %s",
 				vifi,
 				inet_fmt(mrtentry_srcs->source->address, s1),
 				inet_fmt(group, s2));
@@ -328,10 +313,8 @@ u_int32 group;
 	}
 }
 
-void
-calc_oifs(mrtentry_ptr, oifs_ptr)
-mrtentry_t *mrtentry_ptr;
-vifbitmap_t *oifs_ptr;
+
+void calc_oifs(mrtentry_t *mrtentry_ptr, vifbitmap_t *oifs_ptr)
 {
 	vifbitmap_t oifs;
 
@@ -367,15 +350,13 @@ vifbitmap_t *oifs_ptr;
  * timeout immediately.
  */
 int
-change_interfaces(mrtentry_ptr, new_iif, new_pruned_oifs,
-				  new_leaves_)
-mrtentry_t *mrtentry_ptr;
-vifi_t new_iif;
-vifbitmap_t new_pruned_oifs;
-vifbitmap_t new_leaves_;
+change_interfaces(mrtentry_t *mrtentry_ptr, vifi_t new_iif,
+				vifbitmap_t new_pruned_oifs, vifbitmap_t new_leaves_)
 {
+/*
 	vifbitmap_t old_pruned_oifs;
 	vifbitmap_t old_leaves;
+*/
 	vifbitmap_t new_leaves;
 	vifbitmap_t new_real_oifs;    /* The result oifs */
 	vifbitmap_t old_real_oifs;
@@ -388,8 +369,10 @@ vifbitmap_t new_leaves_;
 	VIFM_COPY(new_leaves_, new_leaves);
 
 	old_iif = mrtentry_ptr->incoming;
+/*
 	VIFM_COPY(mrtentry_ptr->leaves, old_leaves);
 	VIFM_COPY(mrtentry_ptr->pruned_oifs, old_pruned_oifs);
+*/
 
 	VIFM_COPY(mrtentry_ptr->oifs, old_real_oifs);
 
@@ -443,7 +426,7 @@ max_prune_timeout(mrtentry_ptr)
 mrtentry_t *mrtentry_ptr;
 {
 	vifi_t vifi;
-	u_int16 time_left, max_holdtime = 0;
+	u_int16 time_left = 0, max_holdtime = 0;
 
 	for (vifi = 0; vifi < numvifs; ++vifi)
 		if (VIFM_ISSET(vifi, mrtentry_ptr->pruned_oifs))
@@ -475,7 +458,7 @@ void process_kernel_call()
 		break;
 	default:
 		IF_DEBUG(DEBUG_KERN)
-		log(LOG_DEBUG, 0, "Unknown kernel_call code");
+		logit(LOG_DEBUG, 0, "Unknown kernel_call code");
 		break;
 	}
 }
@@ -503,7 +486,7 @@ struct igmpmsg *igmpctl;
 	source = igmpctl->im_src.s_addr;
 
 	IF_DEBUG(DEBUG_MFC)
-	log(LOG_DEBUG, 0, "Cache miss, src %s, dst %s",
+	logit(LOG_DEBUG, 0, "Cache miss, src %s, dst %s",
 		inet_fmt(source, s1), inet_fmt(group, s2));
 
 	/* Don't create routing entries for the LAN scoped addresses */
@@ -579,7 +562,7 @@ struct igmpmsg *igmpctl;
 						uvifs[vifi].uv_rmt_addr,
 						max_prune_timeout(mrtentry_ptr));
 		else
-			log(LOG_WARNING, 0,
+			logit(LOG_WARNING, 0,
 				"Can't send wrongvif prune on p2p %s: no remote address",
 				uvifs[vifi].uv_lcl_addr);
 	} else {
@@ -611,7 +594,7 @@ void trigger_prune_alert(mrtentry_ptr)
 mrtentry_t *mrtentry_ptr;
 {
 	IF_DEBUG(DEBUG_MRT)
-	log(LOG_DEBUG, 0, "Now negative cache for src %s, grp %s - pruning",
+	logit(LOG_DEBUG, 0, "Now negative cache for src %s, grp %s - pruning",
 		inet_fmt(mrtentry_ptr->source->address, s1),
 		inet_fmt(mrtentry_ptr->group->group, s2));
 
@@ -629,7 +612,7 @@ void trigger_join_alert(mrtentry_ptr)
 mrtentry_t *mrtentry_ptr;
 {
 	IF_DEBUG(DEBUG_MRT)
-	log(LOG_DEBUG, 0, "Now forwarding state for src %s, grp %s - grafting",
+	logit(LOG_DEBUG, 0, "Now forwarding state for src %s, grp %s - grafting",
 		inet_fmt(mrtentry_ptr->source->address, s1),
 		inet_fmt(mrtentry_ptr->group->group, s2));
 

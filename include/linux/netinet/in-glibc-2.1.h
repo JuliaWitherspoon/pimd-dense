@@ -29,79 +29,76 @@
 __BEGIN_DECLS
 
 /* Standard well-defined IP protocols.  */
-enum
-  {
-    IPPROTO_IP = 0,	   /* Dummy protocol for TCP.  */
-    IPPROTO_HOPOPTS = 0,   /* IPv6 Hop-by-Hop options.  */
-    IPPROTO_ICMP = 1,	   /* Internet Control Message Protocol.  */
-    IPPROTO_IGMP = 2,	   /* Internet Group Management Protocol. */
-    IPPROTO_IPIP = 4,	   /* IPIP tunnels (older KA9Q tunnels use 94).  */
-    IPPROTO_TCP = 6,	   /* Transmission Control Protocol.  */
-    IPPROTO_EGP = 8,	   /* Exterior Gateway Protocol.  */
-    IPPROTO_PUP = 12,	   /* PUP protocol.  */
-    IPPROTO_UDP = 17,	   /* User Datagram Protocol.  */
-    IPPROTO_IDP = 22,	   /* XNS IDP protocol.  */
-    IPPROTO_IPV6 = 41,     /* IPv6 header.  */
-    IPPROTO_ROUTING = 43,  /* IPv6 routing header.  */
-    IPPROTO_FRAGMENT = 44, /* IPv6 fragmentation header.  */
-    IPPROTO_RSVP = 46,     /* RSVP Protocol.  */
-    IPPROTO_GRE = 47,      /* Cisco tunneling protocol.  */
-    IPPROTO_ESP = 50,      /* encapsulating security payload.  */
-    IPPROTO_AH = 51,       /* authentication header.  */
-    IPPROTO_ICMPV6 = 58,   /* ICMPv6.  */
-    IPPROTO_NONE = 59,     /* IPv6 no next header.  */
-    IPPROTO_DSTOPTS = 60,  /* IPv6 destination options.  */
-    IPPROTO_PIM = 103,     /* Protocol Independent Multicast.  */
-    IPPROTO_RAW = 255,	   /* Raw IP packets.  */
-    IPPROTO_MAX
-  };
+enum {
+	IPPROTO_IP = 0,	   /* Dummy protocol for TCP.  */
+	IPPROTO_HOPOPTS = 0,   /* IPv6 Hop-by-Hop options.  */
+	IPPROTO_ICMP = 1,	   /* Internet Control Message Protocol.  */
+	IPPROTO_IGMP = 2,	   /* Internet Group Management Protocol. */
+	IPPROTO_IPIP = 4,	   /* IPIP tunnels (older KA9Q tunnels use 94).  */
+	IPPROTO_TCP = 6,	   /* Transmission Control Protocol.  */
+	IPPROTO_EGP = 8,	   /* Exterior Gateway Protocol.  */
+	IPPROTO_PUP = 12,	   /* PUP protocol.  */
+	IPPROTO_UDP = 17,	   /* User Datagram Protocol.  */
+	IPPROTO_IDP = 22,	   /* XNS IDP protocol.  */
+	IPPROTO_IPV6 = 41,     /* IPv6 header.  */
+	IPPROTO_ROUTING = 43,  /* IPv6 routing header.  */
+	IPPROTO_FRAGMENT = 44, /* IPv6 fragmentation header.  */
+	IPPROTO_RSVP = 46,     /* RSVP Protocol.  */
+	IPPROTO_GRE = 47,      /* Cisco tunneling protocol.  */
+	IPPROTO_ESP = 50,      /* encapsulating security payload.  */
+	IPPROTO_AH = 51,       /* authentication header.  */
+	IPPROTO_ICMPV6 = 58,   /* ICMPv6.  */
+	IPPROTO_NONE = 59,     /* IPv6 no next header.  */
+	IPPROTO_DSTOPTS = 60,  /* IPv6 destination options.  */
+	IPPROTO_PIM = 103,     /* Protocol Independent Multicast.  */
+	IPPROTO_RAW = 255,	   /* Raw IP packets.  */
+	IPPROTO_MAX
+};
 
 /* Standard well-known ports.  */
-enum
-  {
-    IPPORT_ECHO = 7,		/* Echo service.  */
-    IPPORT_DISCARD = 9,		/* Discard transmissions service.  */
-    IPPORT_SYSTAT = 11,		/* System status service.  */
-    IPPORT_DAYTIME = 13,	/* Time of day service.  */
-    IPPORT_NETSTAT = 15,	/* Network status service.  */
-    IPPORT_FTP = 21,		/* File Transfer Protocol.  */
-    IPPORT_TELNET = 23,		/* Telnet protocol.  */
-    IPPORT_SMTP = 25,		/* Simple Mail Transfer Protocol.  */
-    IPPORT_TIMESERVER = 37,	/* Timeserver service.  */
-    IPPORT_NAMESERVER = 42,	/* Domain Name Service.  */
-    IPPORT_WHOIS = 43,		/* Internet Whois service.  */
-    IPPORT_MTP = 57,
+enum {
+	IPPORT_ECHO = 7,		/* Echo service.  */
+	IPPORT_DISCARD = 9,		/* Discard transmissions service.  */
+	IPPORT_SYSTAT = 11,		/* System status service.  */
+	IPPORT_DAYTIME = 13,	/* Time of day service.  */
+	IPPORT_NETSTAT = 15,	/* Network status service.  */
+	IPPORT_FTP = 21,		/* File Transfer Protocol.  */
+	IPPORT_TELNET = 23,		/* Telnet protocol.  */
+	IPPORT_SMTP = 25,		/* Simple Mail Transfer Protocol.  */
+	IPPORT_TIMESERVER = 37,	/* Timeserver service.  */
+	IPPORT_NAMESERVER = 42,	/* Domain Name Service.  */
+	IPPORT_WHOIS = 43,		/* Internet Whois service.  */
+	IPPORT_MTP = 57,
 
-    IPPORT_TFTP = 69,		/* Trivial File Transfer Protocol.  */
-    IPPORT_RJE = 77,
-    IPPORT_FINGER = 79,		/* Finger service.  */
-    IPPORT_TTYLINK = 87,
-    IPPORT_SUPDUP = 95,		/* SUPDUP protocol.  */
+	IPPORT_TFTP = 69,		/* Trivial File Transfer Protocol.  */
+	IPPORT_RJE = 77,
+	IPPORT_FINGER = 79,		/* Finger service.  */
+	IPPORT_TTYLINK = 87,
+	IPPORT_SUPDUP = 95,		/* SUPDUP protocol.  */
 
 
-    IPPORT_EXECSERVER = 512,	/* execd service.  */
-    IPPORT_LOGINSERVER = 513,	/* rlogind service.  */
-    IPPORT_CMDSERVER = 514,
-    IPPORT_EFSSERVER = 520,
+	IPPORT_EXECSERVER = 512,	/* execd service.  */
+	IPPORT_LOGINSERVER = 513,	/* rlogind service.  */
+	IPPORT_CMDSERVER = 514,
+	IPPORT_EFSSERVER = 520,
 
-    /* UDP ports.  */
-    IPPORT_BIFFUDP = 512,
-    IPPORT_WHOSERVER = 513,
-    IPPORT_ROUTESERVER = 520,
+	/* UDP ports.  */
+	IPPORT_BIFFUDP = 512,
+	IPPORT_WHOSERVER = 513,
+	IPPORT_ROUTESERVER = 520,
 
-    /* Ports less than this value are reserved for privileged processes.  */
-    IPPORT_RESERVED = 1024,
+	/* Ports less than this value are reserved for privileged processes.  */
+	IPPORT_RESERVED = 1024,
 
-    /* Ports greater this value are reserved for (non-privileged) servers.  */
-    IPPORT_USERRESERVED = 5000
-  };
+	/* Ports greater this value are reserved for (non-privileged) servers.  */
+	IPPORT_USERRESERVED = 5000
+};
 
 
 /* Internet address.  */
-struct in_addr
-  {
-    uint32_t s_addr;
-  };
+struct in_addr {
+	uint32_t s_addr;
+};
 
 
 /* Definitions of the bits in an Internet address integer.
@@ -154,22 +151,20 @@ struct in_addr
 
 
 /* IPv6 address */
-struct in6_addr
-  {
-    union
-      {
-	uint8_t		u6_addr8[16];
-	uint16_t	u6_addr16[8];
-	uint32_t	u6_addr32[4];
+struct in6_addr {
+	union {
+		uint8_t		u6_addr8[16];
+		uint16_t	u6_addr16[8];
+		uint32_t	u6_addr32[4];
 #if (~0UL) > 0xffffffff
-	uint64_t	u6_addr64[2];
+		uint64_t	u6_addr64[2];
 #endif
-      } in6_u;
+	} in6_u;
 #define s6_addr			in6_u.u6_addr8
 #define s6_addr16		in6_u.u6_addr16
 #define s6_addr32		in6_u.u6_addr32
 #define s6_addr64		in6_u.u6_addr64
-  };
+};
 
 extern const struct in6_addr in6addr_any;        /* :: */
 extern const struct in6_addr in6addr_loopback;   /* ::1 */
@@ -184,37 +179,34 @@ extern const struct in6_addr in6addr_loopback;   /* ::1 */
 
 
 /* Structure describing an Internet socket address.  */
-struct sockaddr_in
-  {
-    __SOCKADDR_COMMON (sin_);
-    uint16_t sin_port;			/* Port number.  */
-    struct in_addr sin_addr;		/* Internet address.  */
+struct sockaddr_in {
+	__SOCKADDR_COMMON(sin_);
+	uint16_t sin_port;			/* Port number.  */
+	struct in_addr sin_addr;		/* Internet address.  */
 
-    /* Pad to size of `struct sockaddr'.  */
-    unsigned char sin_zero[sizeof (struct sockaddr) -
-			   __SOCKADDR_COMMON_SIZE -
-			   sizeof (uint16_t) -
-			   sizeof (struct in_addr)];
-  };
+	/* Pad to size of `struct sockaddr'.  */
+	unsigned char sin_zero[sizeof(struct sockaddr) -
+										 __SOCKADDR_COMMON_SIZE -
+										 sizeof(uint16_t) -
+										 sizeof(struct in_addr)];
+};
 
 /* Ditto, for IPv6.  */
-struct sockaddr_in6
-  {
-    __SOCKADDR_COMMON (sin6_);
-    uint16_t sin6_port;		/* Transport layer port # */
-    uint32_t sin6_flowinfo;	/* IPv6 flow information */
-    struct in6_addr sin6_addr;	/* IPv6 address */
-  };
+struct sockaddr_in6 {
+	__SOCKADDR_COMMON(sin6_);
+	uint16_t sin6_port;		/* Transport layer port # */
+	uint32_t sin6_flowinfo;	/* IPv6 flow information */
+	struct in6_addr sin6_addr;	/* IPv6 address */
+};
 
 /* IPv6 multicast request.  */
-struct ipv6_mreq
-  {
-    /* IPv6 multicast address of group */
-    struct in6_addr ipv6mr_multiaddr;
+struct ipv6_mreq {
+	/* IPv6 multicast address of group */
+	struct in6_addr ipv6mr_multiaddr;
 
-    /* local interface */
-    unsigned int ipv6mr_ifindex;
-  };
+	/* local interface */
+	unsigned int ipv6mr_ifindex;
+};
 
 /* Get system-specific definitions.  */
 #include <bits/in.h>
@@ -226,10 +218,10 @@ struct ipv6_mreq
    this was a short-sighted decision since on different systems the types
    may have different representations but the values are always the same.  */
 
-extern uint32_t ntohl __P ((uint32_t __netlong));
-extern uint16_t ntohs __P ((uint16_t __netshort));
-extern uint32_t htonl __P ((uint32_t __hostlong));
-extern uint16_t htons __P ((uint16_t __hostshort));
+extern uint32_t ntohl __P((uint32_t __netlong));
+extern uint16_t ntohs __P((uint16_t __netshort));
+extern uint32_t htonl __P((uint32_t __hostlong));
+extern uint16_t htons __P((uint16_t __hostshort));
 
 #include <endian.h>
 
@@ -283,7 +275,7 @@ extern uint16_t htons __P ((uint16_t __hostshort));
 	 (((uint32_t *) (a))[3] == ((uint32_t *) (b))[3]))
 
 /* Bind socket to a privileged IP port.  */
-extern int bindresvport __P ((int __sockfd, struct sockaddr_in *__sock_in));
+extern int bindresvport __P((int __sockfd, struct sockaddr_in *__sock_in));
 
 
 
@@ -303,11 +295,10 @@ extern int bindresvport __P ((int __sockfd, struct sockaddr_in *__sock_in));
 	(IN6_IS_ADDR_MULTICAST(a) && ((((u_int8_t *) (a))[1] & 0xf) == 0xe))
 
 /* IPv6 packet information.  */
-struct in6_pktinfo
-  {
-    struct in6_addr	ipi6_addr;    /* src/dst IPv6 address */
-    unsigned int	ipi6_ifindex; /* send/recv interface index */
-  };
+struct in6_pktinfo {
+	struct in6_addr	ipi6_addr;    /* src/dst IPv6 address */
+	unsigned int	ipi6_ifindex; /* send/recv interface index */
+};
 
 __END_DECLS
 

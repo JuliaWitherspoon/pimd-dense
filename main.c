@@ -195,7 +195,8 @@ main(argc, argv)
 int argc;
 char *argv[];
 {
-	int dummy, dummysigalrm;
+	//int dummy;
+	int dummysigalrm;
 	FILE *fp;
 	struct timeval tv, difftime, curtime, lasttime, *timeout;
 	fd_set rfds, readers;
@@ -330,7 +331,7 @@ usage:
 #endif /* LOG_DAEMON */
 	sprintf(versionstring, "pimdd version %s", todaysversion);
 
-	log(LOG_DEBUG, 0, "%s starting", versionstring);
+	logit(LOG_DEBUG, 0, "%s starting", versionstring);
 
 	/* TODO: XXX: use a combination of time and hostid to initialize the random
 	 * generator.
@@ -341,7 +342,7 @@ usage:
 	srandom(gethostid());
 #endif
 
-	/* Start up the log rate-limiter */
+	/* Start up the logit rate-limiter */
 	resetlogging(NULL);
 
 	callout_init();
@@ -432,7 +433,7 @@ usage:
 	/*
 	 * Main receive loop.
 	 */
-	dummy = 0;
+	//dummy = 0;
 	dummysigalrm = SIGALRM;
 	difftime.tv_usec = 0;
 	gettimeofday(&curtime, NULL);
@@ -472,7 +473,7 @@ usage:
 		}
 		if ((n = select(nfds, &rfds, NULL, NULL, timeout)) < 0) {
 			if (errno != EINTR) /* SIGALRM is expected */
-				log(LOG_WARNING, errno, "select failed");
+				logit(LOG_WARNING, errno, "select failed");
 			continue;
 		}
 
@@ -505,7 +506,7 @@ usage:
 			difftime.tv_usec += curtime.tv_usec - lasttime.tv_usec;
 #ifdef TIMERDEBUG
 			IF_DEBUG(DEBUG_TIMEOUT)
-			log(LOG_DEBUG, 0, "TIMEOUT: secs %d, diff secs %d, diff usecs %d", secs, difftime.tv_sec, difftime.tv_usec);
+			logit(LOG_DEBUG, 0, "TIMEOUT: secs %d, diff secs %d, diff usecs %d", secs, difftime.tv_sec, difftime.tv_usec);
 #endif
 			while (difftime.tv_usec > 1000000) {
 				difftime.tv_sec++;
@@ -519,7 +520,7 @@ usage:
 			if (secs == 0 || difftime.tv_sec > 0) {
 #ifdef TIMERDEBUG
 				IF_DEBUG(DEBUG_TIMEOUT)
-				log(LOG_DEBUG, 0, "\taging callouts: secs %d, diff secs %d, diff usecs %d", secs, difftime.tv_sec, difftime.tv_usec);
+				logit(LOG_DEBUG, 0, "\taging callouts: secs %d, diff secs %d, diff usecs %d", secs, difftime.tv_sec, difftime.tv_usec);
 #endif
 				age_callout_queue(difftime.tv_sec);
 			}
@@ -538,7 +539,7 @@ usage:
 
 	} /* Main loop */
 
-	log(LOG_NOTICE, 0, "%s exiting", versionstring);
+	logit(LOG_NOTICE, 0, "%s exiting", versionstring);
 	cleanup();
 	exit(0);
 }
@@ -639,7 +640,7 @@ int i;
 	int s;
 #endif /* SNMP */
 
-	log(LOG_NOTICE, 0, "% restart", versionstring);
+	logit(LOG_NOTICE, 0, "% restart", versionstring);
 
 	/*
 	 * reset all the entries

@@ -68,7 +68,7 @@ struct mfcctl {
 	vifi_t	 mfcc_parent;		/* incoming vif */
 	u_int8_t mfcc_ttls[MAXVIFS];	/* forwarding ttls on vifs */
 };
-  
+
 /*
  * Argument structure used by mrouted to get src-grp pkt counts.
  */
@@ -79,7 +79,7 @@ struct sioc_sg_req {
 	u_long	bytecnt;
 	u_long	wrong_if;
 };
-  
+
 /*
  * Argument structure used by mrouted to get vif pkt counts.
  */
@@ -110,7 +110,7 @@ struct mrtstat {
 	u_long	mrts_pkt2large;     	/* pkts dropped - size > BKT SIZE */
 	u_long	mrts_upq_sockfull;	/* upcalls dropped - socket full */
 };
-  
+
 
 #ifdef _KERNEL
 
@@ -143,7 +143,7 @@ struct vif {
 
 /*
  * The kernel's multicast forwarding cache entry structure.
- * (A field for the type of service (mfc_tos) is to be added 
+ * (A field for the type of service (mfc_tos) is to be added
  * at a future point.)
  */
 struct mfc {
@@ -191,13 +191,13 @@ struct rtdetq {
 
 #define	MFCTBLSIZ	256
 #define	MAX_UPQ		4		/* max. no of pkts in upcall Q */
-  
+
 /*
- * Token bucket filter code 
+ * Token bucket filter code
  */
 #define	MAX_BKT_SIZE    10000		/* 10K bytes size */
 #define	MAXQSIZE        10		/* max. no of pkts in token queue */
-  
+
 
 int ip_mrouter_set __P((struct socket *, int, struct mbuf **));
 int ip_mrouter_get __P((struct socket *, int, struct mbuf **));

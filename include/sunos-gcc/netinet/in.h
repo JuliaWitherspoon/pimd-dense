@@ -105,8 +105,12 @@
  */
 struct in_addr {
 	union {
-		struct { u_char s_b1,s_b2,s_b3,s_b4; } S_un_b;
-		struct { u_short s_w1,s_w2; } S_un_w;
+		struct {
+			u_char s_b1, s_b2, s_b3, s_b4;
+		} S_un_b;
+		struct {
+			u_short s_w1, s_w2;
+		} S_un_w;
 		u_long S_addr;
 	} S_un;
 #define	s_addr	S_un.S_addr		/* should be used for all code */
@@ -162,7 +166,7 @@ struct in_addr {
  * Define a macro to stuff the loopback address into an Internet address
  */
 #define IN_SET_LOOPBACK_ADDR(a)	{(a)->sin_addr.s_addr  = htonl(INADDR_LOOPBACK); \
-	(a)->sin_family = AF_INET;}
+		(a)->sin_family = AF_INET;}
 
 /*
  * Socket address, internet style.

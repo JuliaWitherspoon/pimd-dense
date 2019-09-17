@@ -289,7 +289,7 @@ u_int proto, type, code;
 
 /*
  * Some messages are more important than others.  This routine
- * determines the logging level at which to log a send error (often
+ * determines the logging level at which to logit a send error (often
  * "No route to host").  This is important when there is asymmetric
  * reachability and someone is trying to, i.e., mrinfo me periodically.
  */
@@ -438,13 +438,13 @@ FILE *fp;
 
 
 /*
- * Log errors and other messages to the system log daemon and to stderr,
+ * Log errors and other messages to the system logit daemon and to stderr,
  * according to the severity of the message and the current debug level.
  * For errors of severity LOG_ERR or worse, terminate the program.
  */
 #ifdef __STDC__
 void
-log(int severity, int syserr, char *format, ...)
+logit(int severity, int syserr, char *format, ...)
 {
 	va_list ap;
 	static char fmt[211] = "warning - ";
@@ -456,7 +456,7 @@ log(int severity, int syserr, char *format, ...)
 #else
 /*VARARGS3*/
 void
-log(severity, syserr, format, va_alist)
+logit(severity, syserr, format, va_alist)
 int severity, syserr;
 char *format;
 va_dcl {
@@ -494,11 +494,11 @@ va_dcl {
 	}
 
 	/*
-	 * Always log things that are worse than warnings, no matter what
+	 * Always logit things that are worse than warnings, no matter what
 	 * the log_nmsgs rate limiter says.
 	 * Only count things worse than debugging in the rate limiter
 	 * (since if you put daemon.debug in syslog.conf you probably
-	 * actually want to log the debugging messages so they shouldn't
+	 * actually want to logit the debugging messages so they shouldn't
 	 * be rate-limited)
 	 */
 	if ((severity < LOG_WARNING) || (log_nmsgs < LOG_MAX_MSGS))

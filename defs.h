@@ -86,6 +86,7 @@
 #ifdef RSRR
 #include <sys/un.h>
 #endif /* RSRR */
+#include <time.h>
 
 typedef u_int   u_int32;
 typedef u_short u_int16;
@@ -336,7 +337,7 @@ extern void config_vifs_from_file   __P(());
 /* debug.c */
 extern char     *packet_kind __P((u_int proto, u_int type, u_int code));
 extern int      debug_kind   __P((u_int proto, u_int type, u_int code));
-extern void     log          __P((int, int, char *, ...));
+extern void     logit          __P((int, int, char *, ...));
 extern int      log_level    __P((u_int proto, u_int type, u_int code));
 extern void     dump         __P((int i));
 extern void     fdump        __P((int i));

@@ -56,13 +56,13 @@ struct ipovly {
  * be reclaimed if memory becomes tight.
  */
 struct ipq {
-	struct	ipq *next,*prev;	/* to other reass headers */
+	struct	ipq *next, *prev;	/* to other reass headers */
 	u_char	ipq_ttl;		/* time for reass q to live */
 	u_char	ipq_p;			/* protocol of this fragment */
 	u_short	ipq_id;			/* sequence id for reassembly */
-	struct	ipasfrag *ipq_next,*ipq_prev;
-					/* to ip headers of fragments */
-	struct	in_addr ipq_src,ipq_dst;
+	struct	ipasfrag *ipq_next, *ipq_prev;
+	/* to ip headers of fragments */
+	struct	in_addr ipq_src, ipq_dst;
 #ifdef IPDIVERT
 	u_short ipq_divert;		/* divert protocol port */
 #endif
@@ -74,13 +74,13 @@ struct ipq {
  * Note: ipf_next must be at same offset as ipq_next above
  */
 struct	ipasfrag {
-#if BYTE_ORDER == LITTLE_ENDIAN 
-	u_char	ip_hl:4,
-		ip_v:4;
+#if BYTE_ORDER == LITTLE_ENDIAN
+	u_char	ip_hl: 4,
+			ip_v: 4;
 #endif
-#if BYTE_ORDER == BIG_ENDIAN 
-	u_char	ip_v:4,
-		ip_hl:4;
+#if BYTE_ORDER == BIG_ENDIAN
+	u_char	ip_v: 4,
+			ip_hl: 4;
 #endif
 	u_char	ipf_mff;		/* XXX overlays ip_tos: use low bit
 					 * to avoid destroying tos;
@@ -167,29 +167,29 @@ extern u_char	ip_protox[];
 extern struct socket *ip_rsvpd;	/* reservation protocol daemon */
 extern struct socket *ip_mrouter; /* multicast routing daemon */
 extern int	(*legal_vif_num) __P((int));
-extern u_long	(*ip_mcast_src) __P((int));
+extern u_long(*ip_mcast_src) __P((int));
 extern int rsvp_on;
 
 int	 ip_ctloutput __P((int, struct socket *, int, int, struct mbuf **));
 void	 ip_drain __P((void));
 void	 ip_freemoptions __P((struct ip_moptions *));
 void	 ip_init __P((void));
-extern int	 (*ip_mforward) __P((struct ip *, struct ifnet *, struct mbuf *,
-			  struct ip_moptions *));
+extern int (*ip_mforward) __P((struct ip *, struct ifnet *, struct mbuf *,
+							   struct ip_moptions *));
 int	 ip_output __P((struct mbuf *,
-	    struct mbuf *, struct route *, int, struct ip_moptions *));
+					struct mbuf *, struct route *, int, struct ip_moptions *));
 void	 ip_savecontrol __P((struct inpcb *, struct mbuf **, struct ip *,
-		struct mbuf *));
+							 struct mbuf *));
 void	 ip_slowtimo __P((void));
 struct mbuf *
-	 ip_srcroute __P((void));
+ip_srcroute __P((void));
 void	 ip_stripoptions __P((struct mbuf *, struct mbuf *));
 int	 rip_ctloutput __P((int, struct socket *, int, int, struct mbuf **));
 void	 rip_init __P((void));
 void	 rip_input __P((struct mbuf *, int));
 int	 rip_output __P((struct mbuf *, struct socket *, u_long));
 int	 rip_usrreq __P((struct socket *,
-	    int, struct mbuf *, struct mbuf *, struct mbuf *));
+					 int, struct mbuf *, struct mbuf *, struct mbuf *));
 void	ipip_input __P((struct mbuf *, int));
 void	rsvp_input __P((struct mbuf *, int));
 int	ip_rsvp_init __P((struct socket *));
@@ -198,7 +198,7 @@ int	ip_rsvp_vif_init __P((struct socket *, struct mbuf *));
 int	ip_rsvp_vif_done __P((struct socket *, struct mbuf *));
 void	ip_rsvp_force_done __P((struct socket *));
 
-void	pim_input __P((struct mbuf *, int ));	/* Protocol Independent
+void	pim_input __P((struct mbuf *, int));	/* Protocol Independent
 						 * Multicast input machinery
 						 */
 
@@ -206,7 +206,7 @@ void	pim_input __P((struct mbuf *, int ));	/* Protocol Independent
 void	div_init __P((void));
 void	div_input __P((struct mbuf *, int));
 int	div_usrreq __P((struct socket *,
-		int, struct mbuf *, struct mbuf *, struct mbuf *));
+					int, struct mbuf *, struct mbuf *, struct mbuf *));
 extern u_short ip_divert_port;
 extern u_short ip_divert_ignore;
 #endif /* IPDIVERT */
