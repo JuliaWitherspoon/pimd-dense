@@ -53,8 +53,8 @@ PROG_CVS_LAST_VERSION = ${PROG_NAME}_${CVS_LAST_VERSION}
 # Support for Resource Reservations), currently used by RSVP.
 RSRRDEF=	-DRSRR
 
-#CC?=		gcc
-CC:= mips64-octeon-linux-gnu-gcc
+CC=		gcc
+#CC:= mips64-octeon-linux-gnu-gcc
 MCAST_INCLUDE=	-Iinclude
 LDFLAGS=
 PREFIX?=
